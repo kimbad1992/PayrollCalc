@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leepay.payrollcalc.mapper.MainMapper">
+
+    <resultMap id="AdminUserResultMap" type="AdminUser">
+        <result property="username" column="USERNAME"/>
+        <result property="password" column="PASSWORD"/>
+        <result property="enabled" column="ENABLED"/>
+        <collection property="roles" ofType="java.lang.String">
+            <result column="NAME"/>
+        </collection>
+    </resultMap>
+
+    <select id="getAdminUser" resultMap="AdminUserResultMap">
+        SELECT A.USERNAME
+             ,A.PASSWORD
+             ,A.ENABLED
+             ,C.NAME
+        FROM ADMIN_USERS A
+                 JOIN ADMIN_USER_ROLES B
+                      ON A.ID = B.USER_ID
+                 JOIN ADMIN_ROLES C
+                      ON C.ID = B.ROLE_ID
+        WHERE A.USERNAME = #{username}
+    </select>
+
+</mapper>

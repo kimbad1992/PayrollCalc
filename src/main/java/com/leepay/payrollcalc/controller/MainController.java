@@ -1,18 +1,34 @@
 package com.leepay.payrollcalc.controller;
 
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class MainController {
 
+    private boolean isAuthenticated() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || AnonymousAuthenticationToken.class.isAssignableFrom(authentication.getClass())) {
+            return false;
+        }
+        return authentication.isAuthenticated();
+    }
+
     @RequestMapping("/login")
     public String login() {
-        return "/login/login";
+        return "/login/loginForm";
     }
 
     @RequestMapping("/main")
     public String main() {
-        return "/main";
+        return "/main/main";
+    }
+
+    @RequestMapping("/login_request")
+    public void loginRequest() {
+        System.out.println("응");
     }
 }

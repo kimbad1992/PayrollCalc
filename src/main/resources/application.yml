@@ -21,6 +21,7 @@ server:
 mybatis:
   configuration:
     jdbc-type-for-null: null
+  type-aliases-package: com.leepay.payrollcalc.dto
 logging:
   pattern:
     console: "%clr(%d{yyyy-MM-dd HH:mm:ss}){green} %clr(%-5level) %clr(${PID:-}){magenta} %clr(---){faint} [PayrollCalc] %clr(%logger - %M{10}){cyan} - %msg%n)"
@@ -29,6 +30,7 @@ logging:
       springframework:
         boot:
           autoconfigure: ERROR
+        security: DEBUG
     jdbc:
       audit: OFF
       resultset: OFF
