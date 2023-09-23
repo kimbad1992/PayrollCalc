@@ -1,0 +1,38 @@
+spring:
+  devtools:
+    livereload:
+      enabled: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    jdbc-url: jdbc:postgresql://localhost:5432/payroll_auto
+    username: payroll
+    password: payroll23
+    type: com.zaxxer.hikari.HikariDataSource
+server:
+  port: 8020
+  tomcat:
+    uri-encoding: UTF-8
+  #URI Encoding
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+mybatis:
+  configuration:
+    jdbc-type-for-null: null
+logging:
+  pattern:
+    console: "%clr(%d{yyyy-MM-dd HH:mm:ss}){green} %clr(%-5level) %clr(${PID:-}){magenta} %clr(---){faint} [PayrollCalc] %clr(%logger - %M{10}){cyan} - %msg%n)"
+  level:
+    org:
+      springframework:
+        boot:
+          autoconfigure: ERROR
+    jdbc:
+      audit: OFF
+      resultset: OFF
+      resultsettable: DEBUG
+      sqlonly: DEBUG
+      sqltiming: DEBUG
+      connection: OFF
