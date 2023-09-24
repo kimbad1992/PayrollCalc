@@ -18,7 +18,10 @@ public class MainController {
     }
 
     @RequestMapping("/login")
-    public String login() {
+    public String login(Authentication auth) {
+        if (auth != null && auth.isAuthenticated()) {
+            return "redirect:/main";
+        }
         return "/login/loginForm";
     }
 

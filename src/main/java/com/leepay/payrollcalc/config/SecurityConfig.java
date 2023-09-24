@@ -43,13 +43,13 @@ public class SecurityConfig {
                 .logout()
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login")
-                .deleteCookies("JESSIONID");
-//                .and()
-//                .rememberMe()
-//                .key("payroll")
-//                .tokenValiditySeconds(60 * 60 * 24 * 7)
-//                .userDetailsService(adminLoginDetailService)
-//                .rememberMeParameter("remember-me");
+                .deleteCookies("JESSIONID")
+                .and()
+                .rememberMe()
+                .key("payroll")
+                .tokenValiditySeconds(60 * 60 * 24 * 7)
+                .userDetailsService(adminLoginDetailService)
+                .rememberMeParameter("remember-me");
 
         return http.build();
     }
