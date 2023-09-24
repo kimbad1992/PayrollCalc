@@ -13,4 +13,5 @@ public class Menu {
     String role_id;
     String parent_page_seq;
     String level;
+    String role_name;
 }

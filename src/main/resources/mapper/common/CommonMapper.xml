@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leepay.payrollcalc.mapper.CommonMapper">
+
+    <select id="getAllMenu" resultType="menu">
+        SELECT A.PAGE_SEQ
+              ,A.PAGE_NAME
+              ,A.PAGE_URL
+              ,A.GNB_SORT
+              ,A.GNB_NAME
+              ,A.ROLE_ID
+              ,A.PARENT_PAGE_SEQ
+              ,A.LEVEL
+              ,B.NAME AS ROLE_NAME
+         FROM ADMIN_MENU A
+         JOIN ADMIN_ROLES B
+           ON B.ID = A.ROLE_ID
+    </select>
+
+</mapper>

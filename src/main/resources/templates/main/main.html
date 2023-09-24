@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Main</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <div th:insert="common/head :: commonHead"></div>
 </head>
 <body>
 
@@ -24,4 +24,11 @@
 </div>
 
 </body>
+<script>
+    $(document).ready(function() {
+        $('.menu-toggle').click(function() {
+            $(this).parent().toggleClass('show');
+        });
+    });
+</script>
 </html>
