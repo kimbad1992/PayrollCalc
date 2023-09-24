@@ -7,10 +7,20 @@
 <body>
 
 <div class="container mt-5">
-    <h1>Welcome, <span th:text="${#authentication.name}">User</span>!</h1>
-    <p>Username: <span th:text="${#authentication.name}"></span></p>
-    <p>Roles: <span th:text="${#authentication.authorities}"></span></p>
-    <a href="/logout" class="btn btn-danger">Logout</a>
+    <div class="row">
+        <!-- 사이드바 영역 -->
+        <div class="col-md-3">
+            <aside th:replace="/common/leftnav :: leftnav">
+            </aside>
+        </div>
+        <!-- 메인 콘텐트 영역 -->
+        <div class="col-md-9">
+            <h1>Welcome, <span th:text="${#authentication.name}">User</span>!</h1>
+            <p>Username: <span th:text="${#authentication.name}"></span></p>
+            <p>Roles: <span th:text="${#authentication.authorities}"></span></p>
+            <a href="/logout" class="btn btn-danger">Logout</a>
+        </div>
+    </div>
 </div>
 
 </body>

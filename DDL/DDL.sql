@@ -50,3 +50,14 @@ CREATE TABLE ADMIN_USER_ROLES (
                                   role_id INT REFERENCES ADMIN_ROLES(id),
                                   PRIMARY KEY(user_id, role_id)
 );
+CREATE TABLE ADMIN_MENU (
+                            page_seq SERIAL PRIMARY KEY,
+                            page_name VARCHAR(100) NOT NULL,
+                            page_url VARCHAR(200) NOT NULL,
+                            gnb_sort INT NOT NULL,
+                            gnb_name VARCHAR(100) NOT NULL,
+                            role_id INT REFERENCES ADMIN_ROLES(id),
+                            parent_page_seq INT REFERENCES ADMIN_MENU(page_seq),
+                            level INT NOT NULL
+);
+

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Left Nav</title>
+</head>
+<body>
+<div th:fragment="leftnav">
+    <!-- 여기에 사이드바 내용을 작성 -->
+    <nav>
+        <ul>
+            <!-- Thymeleaf를 이용한 메뉴 출력 -->
+            <li th:each="page, index : ${T(com.leepay.payrollcalc.dto.StaticMenu).menuList}" class="nav-item sec" th:if="${page.level == '1'}">
+                <a th:href="'#gnb-' + ${page.gnb_sort}">
+                    <i th:class="${page.gnb_name}"></i>
+                    <p th:text="${page.page_name}"></p>
+                </a>
+                <div th:id="'gnb-' + ${page.gnb_sort}">
+                    <ul class="menu-sub-nav">
+                        <li th:each="subPage, subIndex : ${T(com.leepay.payrollcalc.dto.StaticMenu).menuList}" th:class="'menu-sub ' + ${subPage.page_url}" th:if="${subPage.parent_page_seq == page.page_seq}">
+                            <a th:href="'/' + ${subPage.page_url}">
+                                <span th:text="${subPage.page_name}"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </nav>
+</div>
+</body>
+</html>

@@ -38,6 +38,7 @@ public class SecurityConfig {
                 .loginPage("/login") // 로그인
                 .loginProcessingUrl("/login_request") // 로그인 처리할 경로
                 .defaultSuccessUrl("/main") // 성공시 리다이렉트 경로
+                //.failureHandler()
                 .permitAll()
                 .and()
                 .logout()
@@ -50,7 +51,6 @@ public class SecurityConfig {
                 .tokenValiditySeconds(60 * 60 * 24 * 7)
                 .userDetailsService(adminLoginDetailService)
                 .rememberMeParameter("remember-me");
-
         return http.build();
     }
 
