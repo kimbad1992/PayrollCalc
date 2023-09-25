@@ -28,3 +28,20 @@
 .show > .menu-sub-nav {
     display: block;
 }
+
+.arrow {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-style: solid;
+}
+
+.arrow-up {
+    border-width: 0 5px 10px 5px;
+    border-color: transparent transparent #007bff transparent;
+}
+
+.arrow-down {
+    border-width: 10px 5px 0 5px;
+    border-color: #007bff transparent transparent transparent;
+}
