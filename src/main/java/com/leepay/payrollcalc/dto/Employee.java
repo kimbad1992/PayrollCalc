@@ -7,6 +7,7 @@ import java.util.Date;
 
 @Data
 public class Employee {
+    private String personId;
     private String affiliation;
     private String name;
     private String workLocation;

@@ -51,7 +51,8 @@ public class EmployeeController {
     @PostMapping("/excelUpload.do")
     @ResponseBody
     public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) {
-        return new ApiResponse<List<Employee>>(employeeService.parsingExcel(file)).build();
+        List<Employee> empList = employeeService.parsingExcel(file);
+        return new ApiResponse(employeeService.insertEmployeeListByExcel(empList)).build();
     }
 
 }
