@@ -8,9 +8,11 @@ CREATE TABLE PERSON_INFO (
 CREATE TABLE WORK_INFO (
                            WORK_ID SERIAL PRIMARY KEY,
                            PERSON_ID INT REFERENCES PERSON_INFO(PERSON_ID),
+                           RATE VARCHAR(5),
                            WORK_LOCATION VARCHAR(50),
                            POSITION VARCHAR(20),
                            PHONE VARCHAR(15),
+                           EMERGENCY_CONTACT VARCHAR(20),
                            JOIN_DATE DATE
 );
 ------------------------------------------------------------------------------------------------------------------------
