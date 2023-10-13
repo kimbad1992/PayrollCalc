@@ -4,7 +4,11 @@
             <a th:href="'#gnb-' + ${page.gnb_sort}" th:data-toggle="collapse" class="menu-toggle" th:id="'menu-' + ${page.page_seq}">
                 <i th:class="${page.gnb_name}"></i>
                 <p th:text="${page.page_name}"></p>
-                <span class="arrow arrow-down"></span> <!-- 화살표 -->
+
+                <!-- 하위 메뉴가 있는 경우에만 화살표를 표시 -->
+                <span th:if="${page.has_sub_menu}"
+                      class="arrow arrow-down">
+                </span>
             </a>
             <div th:id="'gnb-' + ${page.gnb_sort}" class="menu-sub-nav">
                 <ul class="list-unstyled">

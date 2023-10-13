@@ -12,6 +12,13 @@
               ,A.PARENT_PAGE_SEQ
               ,A.LEVEL
               ,B.NAME AS ROLE_NAME
+              ,CASE WHEN EXISTS (
+                       SELECT 1
+                       FROM ADMIN_MENU C
+                       WHERE C.PARENT_PAGE_SEQ = A.PAGE_SEQ
+                   ) THEN 1
+                     ELSE 0
+               END AS HAS_SUB_MENU
          FROM ADMIN_MENU A
          JOIN ADMIN_ROLES B
            ON B.ID = A.ROLE_ID

@@ -1,3 +1,13 @@
+DROP TABLE IF EXISTS ADMIN_MENU CASCADE;
+DROP TABLE IF EXISTS ADMIN_USER_ROLES CASCADE;
+DROP TABLE IF EXISTS ADMIN_ROLES CASCADE;
+DROP TABLE IF EXISTS ADMIN_USERS CASCADE;
+DROP TABLE IF EXISTS EDUCATION_AND_CAREER CASCADE;
+DROP TABLE IF EXISTS DOCUMENT_STATUS CASCADE;
+DROP TABLE IF EXISTS FINANCIAL_INFO CASCADE;
+DROP TABLE IF EXISTS WORK_INFO CASCADE;
+DROP TABLE IF EXISTS PERSON_INFO CASCADE;
+------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE PERSON_INFO (
                              PERSON_ID SERIAL PRIMARY KEY,
                              AFFILIATION VARCHAR(50),
@@ -87,4 +97,7 @@ VALUES(3, '사원 등록', '/employee/register', 1, '사원 등록', 1, 1, 2);
 INSERT INTO public.admin_menu
 (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, "level")
 VALUES(4, '사원 엑셀 일괄등록', '/employee/excel', 1, '사원 엑셀 일괄등록', 1, 1, 2);
+INSERT INTO public.admin_menu
+(page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level)
+VALUES (5, '메인', '/main', 2, '메인', 1, null, 1);
 ------------------------------------------------------------------------------------------------------------------------

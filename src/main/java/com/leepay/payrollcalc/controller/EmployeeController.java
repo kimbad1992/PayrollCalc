@@ -52,7 +52,8 @@ public class EmployeeController {
     @ResponseBody
     public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) {
         List<Employee> empList = employeeService.parsingExcel(file);
-        return new ApiResponse(employeeService.insertEmployeeListByExcel(empList)).build();
+//        return new ApiResponse(employeeService.insertEmployeeListByExcel(empList)).build();
+        return new ApiResponse(null).build();
     }
 
 }

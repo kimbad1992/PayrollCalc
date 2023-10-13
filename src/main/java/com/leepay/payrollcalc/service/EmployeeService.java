@@ -120,11 +120,11 @@ public class EmployeeService {
 
     @Transactional
     public int insertEmployeeListByExcel(List<Employee> empList) {
-        employeeMapper.upsertPersonInfoByExcel(empList); // PERSON_INFO
-        employeeMapper.upsertWorkInfoByExcel(empList); // WORK_INFO
-        employeeMapper.upsertFinancialStatusByExcel(empList); // FINANCIAL_STATUS
-        employeeMapper.upsertEducationAndCareerByExcel(empList); // EDUCATION_AND_CAREER
-        employeeMapper.upsertDocumentStatusByExcel(empList); // DOCUMENT_STATUS
+//        employeeMapper.upsertPersonInfoByExcel(empList); // PERSON_INFO
+//        employeeMapper.upsertWorkInfoByExcel(empList); // WORK_INFO
+//        employeeMapper.upsertFinancialStatusByExcel(empList); // FINANCIAL_STATUS
+//        employeeMapper.upsertEducationAndCareerByExcel(empList); // EDUCATION_AND_CAREER
+//        employeeMapper.upsertDocumentStatusByExcel(empList); // DOCUMENT_STATUS
         return employeeMapper.insertEmployeeListByExcel(empList);
     }
 }

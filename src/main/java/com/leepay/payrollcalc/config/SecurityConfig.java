@@ -1,8 +1,8 @@
 package com.leepay.payrollcalc.config;
 
+import com.leepay.payrollcalc.handler.AuthenticationHandler;
 import com.leepay.payrollcalc.provider.AdminAuthenticatorProvider;
 import com.leepay.payrollcalc.service.AdminLoginDetailService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,13 +14,15 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
 public class SecurityConfig {
 
     @Autowired
     AdminAuthenticatorProvider adminAuthenticatorProvider;
     @Autowired
     AdminLoginDetailService adminLoginDetailService;
+    @Autowired
+    private AuthenticationHandler authenticationHandler;
+
     @Autowired
     public void configure (AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(adminAuthenticatorProvider);
@@ -32,13 +34,13 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeRequests()
                 .requestMatchers(new AntPathRequestMatcher("/css/**"), new AntPathRequestMatcher("/js/**")).permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/main/**")).hasRole("admin")
+                .requestMatchers(new AntPathRequestMatcher("/**")).hasRole("admin")
                 .and()
                 .formLogin()
                 .loginPage("/login") // 로그인
                 .loginProcessingUrl("/login_request") // 로그인 처리할 경로
-                .defaultSuccessUrl("/main") // 성공시 리다이렉트 경로
-                //.failureHandler()
+                .successHandler(authenticationHandler)
+                .failureHandler(authenticationHandler)
                 .permitAll()
                 .and()
                 .logout()
@@ -53,6 +55,4 @@ public class SecurityConfig {
                 .rememberMeParameter("remember-me");
         return http.build();
     }
-
-
 }

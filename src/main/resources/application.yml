@@ -3,8 +3,9 @@ spring:
     livereload:
       enabled: true
   datasource:
-    driver-class-name: org.postgresql.Driver
-    jdbc-url: jdbc:postgresql://localhost:5432/payroll_auto
+#    driver-class-name: org.postgresql.Driver
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    jdbc-url: jdbc:log4jdbc:postgresql://localhost:5432/payroll_auto
     username: payroll
     password: payroll23
     type: com.zaxxer.hikari.HikariDataSource
@@ -31,6 +32,9 @@ logging:
   pattern:
     console: "%clr(%d{yyyy-MM-dd HH:mm:ss}){green} %clr(%-5level) %clr(${PID:-}){magenta} %clr(---){faint} [PayrollCalc] %clr(%logger - %M{10}){cyan} - %msg%n)"
   level:
+    com.leepay: DEBUG
+    # logback과 겹치는 로그 제외용
+    com.leepay.payrollcalc.mapper: OFF
     org:
       springframework:
         boot:
@@ -41,5 +45,5 @@ logging:
       resultset: OFF
       resultsettable: DEBUG
       sqlonly: DEBUG
-      sqltiming: DEBUG
+      sqltiming: OFF
       connection: OFF
