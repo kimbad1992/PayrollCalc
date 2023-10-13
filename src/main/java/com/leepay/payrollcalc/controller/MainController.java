@@ -22,12 +22,12 @@ public class MainController {
         if (auth != null && auth.isAuthenticated()) {
             return "redirect:/main";
         }
-        return "/login/loginForm";
+        return "/login";
     }
 
     @RequestMapping("/main")
     public String main() {
-        return "/main/main";
+        return "/index";
     }
 
     @RequestMapping("/login_request")
