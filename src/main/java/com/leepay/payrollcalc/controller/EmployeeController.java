@@ -5,6 +5,7 @@ import com.leepay.payrollcalc.dto.Employee;
 import com.leepay.payrollcalc.exception.ErrorCode;
 import com.leepay.payrollcalc.service.EmployeeService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -58,7 +59,8 @@ public class EmployeeController {
     }
 
     @PostMapping("/employeeRegister.do")
-    public ResponseEntity<?> employeeRegister(@RequestBody Employee employee) {
+    @ResponseBody
+    public ResponseEntity<?> employeeRegister(@ModelAttribute Employee employee) {
         log.debug("사원 정보 : {}", employee);
         return new ApiResponse<>(null).build();
     }
