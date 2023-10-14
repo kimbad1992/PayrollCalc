@@ -5,21 +5,20 @@ import com.leepay.payrollcalc.dto.Employee;
 import com.leepay.payrollcalc.exception.ErrorCode;
 import com.leepay.payrollcalc.service.EmployeeService;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 @Controller
 @RequestMapping("/employee")
+@Slf4j
 public class EmployeeController {
 
     @Autowired
@@ -56,6 +55,12 @@ public class EmployeeController {
         List<Employee> empList = employeeService.parsingExcel(file);
 //        return new ApiResponse(employeeService.insertEmployeeListByExcel(empList)).build();
         return new ApiResponse(null).build();
+    }
+
+    @PostMapping("/employeeRegister.do")
+    public ResponseEntity<?> employeeRegister(@RequestBody Employee employee) {
+        log.debug("사원 정보 : {}", employee);
+        return new ApiResponse<>(null).build();
     }
 
 }

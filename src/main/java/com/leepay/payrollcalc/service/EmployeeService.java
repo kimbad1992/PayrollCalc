@@ -120,7 +120,7 @@ public class EmployeeService {
 
     @Transactional
     public int insertEmployeeListByExcel(List<Employee> empList) {
-//        employeeMapper.upsertPersonInfoByExcel(empList); // PERSON_INFO
+        employeeMapper.upsertPersonInfoByExcel(empList); // PERSON_INFO
 //        employeeMapper.upsertWorkInfoByExcel(empList); // WORK_INFO
 //        employeeMapper.upsertFinancialStatusByExcel(empList); // FINANCIAL_STATUS
 //        employeeMapper.upsertEducationAndCareerByExcel(empList); // EDUCATION_AND_CAREER

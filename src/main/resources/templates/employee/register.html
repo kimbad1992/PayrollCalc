@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <th:block th:replace="~{/fragments/head :: head}"></th:block>
+
+    <title>Main</title>
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <div id="sidebar" th:replace="~{/fragments/sidebar :: sidebar}"></div>
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <div id="topbar" th:replace="~{/fragments/topbar :: topbar}"></div>
+
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800">사원 등록</h1>
+                    <p class="mb-4">건강검진, 등본, 통장 사본 등 각종 문서 등록은 사원 등록 이후 가능합니다.</p>
+                    <!-- Project Card Example -->
+                    <div class="card shadow mb-4">
+                        <form th:action="@{/employee/register}" method="post">
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">사원 정보</h6>
+                            </div>
+                            <!-- 사원 정보 입력 Form -->
+                            <div class="card-body">
+                                <!-- 소속 -->
+                                <div class="form-group">
+                                    <label for="affiliation">소속</label>
+                                    <input type="text" class="form-control" id="affiliation" name="affiliation" required>
+                                </div>
+                                <!-- 이름 -->
+                                <div class="form-group">
+                                    <label for="name">이름</label>
+                                    <input type="text" class="form-control" id="name" name="name" required>
+                                </div>
+                                <!-- 주민번호 -->
+                                <div class="form-group">
+                                    <label for="residentNo">주민번호</label>
+                                    <input type="text" class="form-control" id="residentNo" name="residentNo" required>
+                                </div>
+                            </div>
+
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">근무 정보</h6>
+                            </div>
+                            <!-- 사원 정보 입력 Form -->
+                            <div class="card-body">
+                                <!-- 소속 -->
+                                <div class="form-group">
+                                    <label for="affiliation">직급</label>
+                                    <input type="text" class="form-control" id="affiliation" name="affiliation" required>
+                                </div>
+                                <!-- 이름 -->
+                                <div class="form-group">
+                                    <label for="name">급수</label>
+                                    <input type="text" class="form-control" id="name" name="name" required>
+                                </div>
+                                <!-- 주민번호 -->
+                                <div class="form-group">
+                                    <label for="residentNo">근무지</label>
+                                    <input type="text" class="form-control" id="residentNo" name="residentNo" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="residentNo">전화번호</label>
+                                    <input type="text" class="form-control" id="residentNo" name="residentNo" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="residentNo">비상연락망</label>
+                                    <input type="text" class="form-control" id="residentNo" name="residentNo" required>
+                                </div>
+                            </div>
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">금융 정보</h6>
+                            </div>
+                            <!-- 사원 정보 입력 Form -->
+                            <div class="card-body">
+                                <!-- 소속 -->
+                                <div class="form-group">
+                                    <label for="affiliation">은행명</label>
+                                    <input type="text" class="form-control" id="affiliation" name="affiliation" required>
+                                </div>
+                                <!-- 이름 -->
+                                <div class="form-group">
+                                    <label for="name">계좌번호</label>
+                                    <input type="text" class="form-control" id="name" name="name" required>
+                                </div>
+                                <!-- 주민번호 -->
+                                <div class="form-group">
+                                    <label for="residentNo">시급</label>
+                                    <input type="text" class="form-control" id="residentNo" name="residentNo" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="residentNo">급여(월급)</label>
+                                    <input type="text" class="form-control" id="residentNo" name="residentNo" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="residentNo">OT시급</label>
+                                    <input type="text" class="form-control" id="residentNo" name="residentNo" required>
+                                </div>
+                            </div>
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">교육 및 커리어</h6>
+                            </div>
+                            <!-- 사원 정보 입력 Form -->
+                            <div class="card-body">
+                                <!-- 소속 -->
+                                <div class="form-group">
+                                    <label for="affiliation">학력</label>
+                                    <input type="text" class="form-control" id="affiliation" name="affiliation" required>
+                                </div>
+                                <!-- 이름 -->
+                                <div class="form-group">
+                                    <label for="name">경력(개월)</label>
+                                    <input type="text" class="form-control" id="name" name="name" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">등록</button>
+                            </div>
+                            <span></span>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer th:replace="~{/fragments/footer :: footer}">
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+</body>
+<!-- Script Fragments -->
+<th:block th:replace="fragments/config :: config" ></th:block>
+</html>

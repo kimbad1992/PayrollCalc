@@ -87,17 +87,17 @@ CREATE TABLE ADMIN_MENU (
 );
 INSERT INTO public.admin_menu
 (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, "level")
-VALUES(1, '사원', '/employee', 1, '사원', 1, NULL, 1);
+VALUES(1, '사원 관리', '/employee', 1, '사원', 1, NULL, 1);
 INSERT INTO public.admin_menu
 (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, "level")
-VALUES(2, '사원 조회', '/employee/list', 1, '사원 조회', 1, 1, 2);
+VALUES(2, NULL, '/employee/list', 1, '사원 조회', 1, 1, 2);
 INSERT INTO public.admin_menu
 (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, "level")
-VALUES(3, '사원 등록', '/employee/register', 1, '사원 등록', 1, 1, 2);
+VALUES(3, NULL, '/employee/register', 1, '사원 등록', 1, 1, 2);
 INSERT INTO public.admin_menu
 (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, "level")
-VALUES(4, '사원 엑셀 일괄등록', '/employee/excel', 1, '사원 엑셀 일괄등록', 1, 1, 2);
+VALUES(4, NULL, '/employee/excel', 1, '사원 엑셀 일괄등록', 1, 1, 2);
 INSERT INTO public.admin_menu
 (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level)
-VALUES (5, '메인', '/main', 2, '메인', 1, null, 1);
+VALUES (5, '급여 관리', '/payroll', 2, '급여', 1, null, 1);
 ------------------------------------------------------------------------------------------------------------------------

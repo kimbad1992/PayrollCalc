@@ -4,3 +4,8 @@
     background-position:center;
     background-size:cover
 }
+
+/* 메인 컨텐츠에 Noto Sans 웹폰트 적용 */
+#content-wrapper {
+    font-family: 'Noto Sans KR', sans-serif;
+}
