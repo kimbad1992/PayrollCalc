@@ -33,7 +33,7 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .requestMatchers(new AntPathRequestMatcher("/css/**"), new AntPathRequestMatcher("/js/**")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/css/**"), new AntPathRequestMatcher("/js/**"), new AntPathRequestMatcher("/images/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/bootstrap/**/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/**")).hasRole("admin")
                 .and()
