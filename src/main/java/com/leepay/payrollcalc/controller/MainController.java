@@ -29,9 +29,4 @@ public class MainController {
     public String main() {
         return "/index";
     }
-
-    @RequestMapping("/login_request")
-    public void loginRequest() {
-        System.out.println("응");
-    }
 }

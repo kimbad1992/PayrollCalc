@@ -34,6 +34,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeRequests()
                 .requestMatchers(new AntPathRequestMatcher("/css/**"), new AntPathRequestMatcher("/js/**")).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/bootstrap/**/**")).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/**")).hasRole("admin")
                 .and()
                 .formLogin()
