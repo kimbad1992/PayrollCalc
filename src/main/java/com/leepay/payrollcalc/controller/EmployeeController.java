@@ -4,10 +4,12 @@ import com.leepay.payrollcalc.dto.ApiResponse;
 import com.leepay.payrollcalc.dto.Employee;
 import com.leepay.payrollcalc.exception.ErrorCode;
 import com.leepay.payrollcalc.service.EmployeeService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,7 +39,7 @@ public class EmployeeController {
 
     /* 사원 조회 페이지 */
     @RequestMapping("/list")
-    public String employeeListPage() {
+    public String employeeListPage(Model model, HttpServletRequest request) {
         return "/employee/list";
     }
 
