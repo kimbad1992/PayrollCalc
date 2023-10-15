@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -60,8 +61,12 @@ public class EmployeeController {
 
     @PostMapping("/employeeRegister.do")
     @ResponseBody
-    public ResponseEntity<?> employeeRegister(@ModelAttribute Employee employee) {
+    public ResponseEntity<?> employeeRegister(@Valid @ModelAttribute Employee employee, BindingResult bindingResult) {
         log.debug("사원 정보 : {}", employee);
+        if (bindingResult.hasErrors()) {
+            String errorMessage = bindingResult.getFieldError().getDefaultMessage();
+            return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+        }
         return new ApiResponse<>(null).build();
     }
 

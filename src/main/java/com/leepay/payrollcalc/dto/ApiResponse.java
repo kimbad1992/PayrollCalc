@@ -29,14 +29,14 @@ public class ApiResponse<T> {
     public ApiResponse()  {
         this.result = "T";
         this.msg = EmpConstant.SUCCESSFUL_RESPONSE_MSG;
-        this.code = EmpConstant.SUCCESSFUL_RESPONSE_CODE;
+        this.code = EmpConstant.STRING_ZERO;
         this.status = HttpStatus.OK;
     }
 
     public ApiResponse(@Nullable T data) {
         this.result = "T";
         this.msg = EmpConstant.SUCCESSFUL_RESPONSE_MSG;
-        this.code = EmpConstant.SUCCESSFUL_RESPONSE_CODE;
+        this.code = EmpConstant.STRING_ZERO;
         this.status = HttpStatus.OK;
         this.data = data;
     }

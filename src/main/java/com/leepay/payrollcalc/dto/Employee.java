@@ -1,5 +1,6 @@
 package com.leepay.payrollcalc.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import lombok.Data;
@@ -8,6 +9,7 @@ import java.util.Date;
 @Data
 public class Employee {
     private String personId;
+    @NotNull(message = "소속명은 반드시 입력해야 합니다.")
     private String affiliation;
     private String name;
     private String workLocation;

@@ -65,13 +65,13 @@ public class EmployeeService {
                     emp.setResignationDate(getCellExpectDate(row, 24)); // 퇴사일
                     emp.setLastWorkDate(getCellExpectDate(row, 25)); // 마지막 실근무일
 //                    emp.setLastWorkDate(row.getCell(24).getDateCellValue()); // 퇴사사유
-                    emp.setHealthCheck(Objects.equals(getCellExpectString(row, 27), EmpConstant.CELL_OKAY)); // 건강검진
-                    emp.setFamilyRegisterCopy(Objects.equals(getCellExpectString(row, 28), EmpConstant.CELL_OKAY)); // 등본
-                    emp.setBankbookCopy(Objects.equals(getCellExpectString(row, 29), EmpConstant.CELL_OKAY)); // 통장사본
-                    emp.setEmploymentContract(Objects.equals(getCellExpectString(row, 30), EmpConstant.CELL_OKAY)); // 근로계약서
-                    emp.setMealCard(Objects.equals(getCellExpectString(row, 31), EmpConstant.CELL_OKAY)); // 식비
-                    emp.setReferralBonus(Objects.equals(getCellExpectString(row, 32), EmpConstant.CELL_OKAY)); // 추천수당
-                    emp.setReturnStatus(Objects.equals(getCellExpectString(row, 33), EmpConstant.CELL_OKAY)); // 퇴사자 반납여부
+                    emp.setHealthCheck(Objects.equals(getCellExpectString(row, 27), EmpConstant.STRING_ZERO)); // 건강검진
+                    emp.setFamilyRegisterCopy(Objects.equals(getCellExpectString(row, 28), EmpConstant.STRING_ZERO)); // 등본
+                    emp.setBankbookCopy(Objects.equals(getCellExpectString(row, 29), EmpConstant.STRING_ZERO)); // 통장사본
+                    emp.setEmploymentContract(Objects.equals(getCellExpectString(row, 30), EmpConstant.STRING_ZERO)); // 근로계약서
+                    emp.setMealCard(Objects.equals(getCellExpectString(row, 31), EmpConstant.STRING_ZERO)); // 식비
+                    emp.setReferralBonus(Objects.equals(getCellExpectString(row, 32), EmpConstant.STRING_ZERO)); // 추천수당
+                    emp.setReturnStatus(Objects.equals(getCellExpectString(row, 33), EmpConstant.STRING_ZERO)); // 퇴사자 반납여부
                     emp.setPayGrade(getCellExpectString(row, 34)); // 호봉
                     emp.setHourlyWage(getCellExpectNumeric(row, 35)); // 시급
                     emp.setSalary(getCellExpectNumeric(row, 36)); // 급여
