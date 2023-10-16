@@ -7,6 +7,8 @@ DROP TABLE IF EXISTS DOCUMENT_STATUS CASCADE;
 DROP TABLE IF EXISTS FINANCIAL_INFO CASCADE;
 DROP TABLE IF EXISTS WORK_INFO CASCADE;
 DROP TABLE IF EXISTS PERSON_INFO CASCADE;
+DROP TABLE IF EXISTS COMMON_CODE CASCADE;
+DROP TABLE IF EXISTS GROUP_CODE CASCADE;
 ------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE PERSON_INFO (
                              PERSON_ID SERIAL PRIMARY KEY,
@@ -100,4 +102,33 @@ VALUES(4, '', '/employee/excel', 1, '사원 엑셀 일괄등록', 1, 1, 2);
 INSERT INTO public.admin_menu
 (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level)
 VALUES (5, '급여 관리', '/payroll', 2, '급여', 1, null, 1);
+INSERT INTO public.admin_menu
+(page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level)
+VALUES (6, '시스템 설정', '/system', 2, '시스템', 1, null, 1);
+INSERT INTO public.admin_menu
+(page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level)
+VALUES (7, '', '/system/commonCode', 2, '공통코드 관리', 1, 6, 2);
 ------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE GROUP_CODE (
+                            GROUP_CODE_SEQ SERIAL PRIMARY KEY,
+                            GROUP_CODE_ID VARCHAR(255) UNIQUE NOT NULL,
+                            GROUP_CODE_NAME VARCHAR(255) NOT NULL,
+                            GROUP_CODE_DESC TEXT,
+                            CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                            UPDATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE COMMON_CODE (
+                            CODE_ID SERIAL PRIMARY KEY,
+                            GROUP_CODE_ID VARCHAR(255) REFERENCES GROUP_CODE(GROUP_CODE_ID),
+                            CODE_NAME VARCHAR(255) NOT NULL,
+                            CODE_VALUE VARCHAR(255) NOT NULL,
+                            CODE_DESC TEXT,
+                            SORT_ORDER INT,
+                            USE_YN BOOLEAN DEFAULT TRUE,
+                            CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                            UPDATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+

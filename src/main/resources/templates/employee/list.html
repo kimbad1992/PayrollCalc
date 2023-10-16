@@ -103,7 +103,7 @@
 
 </body>
 <!-- Script Fragments -->
-<th:block th:replace="fragments/config :: config" ></th:block>
+<th:block th:replace="~{/fragments/config :: config}" ></th:block>
 <!-- Page level plugins -->
 <script th:src="@{/bootstrap/vendor/datatables/jquery.dataTables.min.js}"></script>
 <script th:src="@{/bootstrap/vendor/datatables/dataTables.bootstrap4.min.js}"></script>
@@ -129,7 +129,7 @@
         "columnDefs": [
             {
                 "targets": [5,6],
-                "render": function ( data, type, row ) {
+                "render": ( data, type, row ) => {
                     return (data === null || data === "null" || data === "" || data === 0) ? '-' : data;
                 }
             }

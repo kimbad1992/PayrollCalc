@@ -49,7 +49,7 @@
              class="collapse"
              aria-labelledby="headingUtilities"
              data-parent="#accordionSidebar"
-             th:classappend="${servletPath.equals(menu.page_url) ? ' show' : ''}">
+             th:classappend="${(servletPath != null && servletPath.equals(menu.page_url)) ? ' show' : ''}">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header" th:text="${menu.page_name}+':'"></h6>
                 <!-- 서브메뉴 순회 -->
