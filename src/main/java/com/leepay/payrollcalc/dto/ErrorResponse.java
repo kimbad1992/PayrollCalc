@@ -8,8 +8,14 @@ import lombok.Setter;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -18,6 +24,7 @@ public class ErrorResponse {
     private String message;
     private String code;
     private HttpStatus status;
+    private List<Map<String, String>> errors;
 
     public ErrorResponse (Throwable e){
         if (e instanceof CommonException) {
@@ -44,8 +51,24 @@ public class ErrorResponse {
         }
     }
 
+    public ErrorResponse (BindingResult e){
+        this.status = HttpStatus.BAD_REQUEST;
+        // 필드 명을 주어서 페이지에서 사용할 수 있게 함
+        this.errors = getErrorFieldList(e);
+    }
+
     public ResponseEntity build() {
-        ResponseEntity responseEntity = new ResponseEntity<>(this, status);
-        return responseEntity;
+        return new ResponseEntity<>(this, status);
+    }
+
+    private List<Map<String,String>> getErrorFieldList(BindingResult bindingResult) {
+        List<Map<String,String>> errors = new ArrayList<>();
+        for (FieldError error : bindingResult.getFieldErrors()) {
+            Map<String, String> errorMap = new HashMap<>();
+            errorMap.put("field", error.getField());
+            errorMap.put("defaultMessage", error.getDefaultMessage());
+            errors.add(errorMap);
+        }
+        return errors;
     }
 }

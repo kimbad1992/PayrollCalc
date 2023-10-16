@@ -2,6 +2,7 @@ package com.leepay.payrollcalc.controller;
 
 import com.leepay.payrollcalc.dto.ApiResponse;
 import com.leepay.payrollcalc.dto.Employee;
+import com.leepay.payrollcalc.dto.ErrorResponse;
 import com.leepay.payrollcalc.exception.ErrorCode;
 import com.leepay.payrollcalc.service.EmployeeService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -41,6 +42,7 @@ public class EmployeeController {
     /* 사원 조회 페이지 */
     @RequestMapping("/list")
     public String employeeListPage(Model model, HttpServletRequest request) {
+        model.addAttribute("employeeList", employeeService.getEmployeeList());
         return "/employee/list";
     }
 
@@ -63,11 +65,12 @@ public class EmployeeController {
     @ResponseBody
     public ResponseEntity<?> employeeRegister(@Valid @ModelAttribute Employee employee, BindingResult bindingResult) {
         log.debug("사원 정보 : {}", employee);
-        if (bindingResult.hasErrors()) {
-            String errorMessage = bindingResult.getFieldError().getDefaultMessage();
-            return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
-        }
-        return new ApiResponse<>(null).build();
-    }
 
+        if (bindingResult.hasErrors()) {
+            return new ErrorResponse(bindingResult).build();
+        }
+
+        employeeService.employeeRegister(employee);
+        return new ApiResponse<>().build();
+    }
 }

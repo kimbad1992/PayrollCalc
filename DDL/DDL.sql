@@ -17,7 +17,7 @@ CREATE TABLE PERSON_INFO (
 ------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE WORK_INFO (
                            WORK_ID SERIAL PRIMARY KEY,
-                           PERSON_ID INT REFERENCES PERSON_INFO(PERSON_ID),
+                           PERSON_ID INT UNIQUE REFERENCES PERSON_INFO(PERSON_ID),
                            RATE VARCHAR(5),
                            WORK_LOCATION VARCHAR(50),
                            POSITION VARCHAR(20),
@@ -28,7 +28,7 @@ CREATE TABLE WORK_INFO (
 ------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE FINANCIAL_INFO (
                                 FINANCIAL_ID SERIAL PRIMARY KEY,
-                                PERSON_ID INT REFERENCES PERSON_INFO(PERSON_ID),
+                                PERSON_ID INT UNIQUE REFERENCES PERSON_INFO(PERSON_ID),
                                 BANK VARCHAR(50),
                                 ACCOUNT_NUMBER VARCHAR(30),
                                 HOURLY_WAGE NUMERIC(10, 2),
@@ -38,7 +38,7 @@ CREATE TABLE FINANCIAL_INFO (
 ------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE DOCUMENT_STATUS (
                                  DOC_ID SERIAL PRIMARY KEY,
-                                 PERSON_ID INT REFERENCES PERSON_INFO(PERSON_ID),
+                                 PERSON_ID INT UNIQUE REFERENCES PERSON_INFO(PERSON_ID),
                                  HEALTH_CHECK BOOLEAN,
                                  FAMILY_REGISTER BOOLEAN,
                                  BANKBOOK_COPY BOOLEAN,
@@ -47,7 +47,7 @@ CREATE TABLE DOCUMENT_STATUS (
 ------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE EDUCATION_AND_CAREER (
                                       EDU_ID SERIAL PRIMARY KEY,
-                                      PERSON_ID INT REFERENCES PERSON_INFO(PERSON_ID),
+                                      PERSON_ID INT UNIQUE REFERENCES PERSON_INFO(PERSON_ID),
                                       EDUCATION VARCHAR(20),
                                       CAREER_MONTHS NUMERIC(5)
 );
@@ -90,13 +90,13 @@ INSERT INTO public.admin_menu
 VALUES(1, '사원 관리', '/employee', 1, '사원', 1, NULL, 1);
 INSERT INTO public.admin_menu
 (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, "level")
-VALUES(2, NULL, '/employee/list', 1, '사원 조회', 1, 1, 2);
+VALUES(2, '', '/employee/list', 1, '사원 조회', 1, 1, 2);
 INSERT INTO public.admin_menu
 (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, "level")
-VALUES(3, NULL, '/employee/register', 1, '사원 등록', 1, 1, 2);
+VALUES(3, '', '/employee/register', 1, '사원 등록', 1, 1, 2);
 INSERT INTO public.admin_menu
 (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, "level")
-VALUES(4, NULL, '/employee/excel', 1, '사원 엑셀 일괄등록', 1, 1, 2);
+VALUES(4, '', '/employee/excel', 1, '사원 엑셀 일괄등록', 1, 1, 2);
 INSERT INTO public.admin_menu
 (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level)
 VALUES (5, '급여 관리', '/payroll', 2, '급여', 1, null, 1);

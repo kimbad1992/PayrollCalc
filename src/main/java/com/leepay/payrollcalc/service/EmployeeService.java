@@ -2,9 +2,12 @@ package com.leepay.payrollcalc.service;
 
 import com.leepay.payrollcalc.constant.EmpConstant;
 import com.leepay.payrollcalc.dto.Employee;
+import com.leepay.payrollcalc.dto.PhoneNumber;
+import com.leepay.payrollcalc.dto.ResidentNumber;
 import com.leepay.payrollcalc.exception.CommonException;
 import com.leepay.payrollcalc.exception.ErrorCode;
 import com.leepay.payrollcalc.mapper.EmployeeMapper;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.openxml4j.util.ZipSecureFile;
 import org.apache.poi.ss.usermodel.*;
@@ -43,17 +46,17 @@ public class EmployeeService {
                     emp.setName(getCellExpectString(row, 2)); // 이름
                     emp.setWorkLocation(getCellExpectString(row, 3)); // 근무지
                     emp.setPosition(getCellExpectString(row, 4)); // 직급
-                    emp.setPhone(getCellExpectString(row, 5)); // 휴대폰
+                    emp.setPhone(new PhoneNumber(getCellExpectString(row, 5))); // 휴대폰
                     emp.setJoinDate(getCellExpectDate(row, 6)); // 입사일
                     emp.setSafetyCertDate(getCellExpectDate(row, 7)); // 기초안전이수교육 날짜
 //                    emp.setAddress(row.getCell(8).toString()); // 주소(간이)
                     emp.setEmergencyContact(getCellExpectString(row, 9)); // 비상연락망
-                    emp.setResidentNo(getCellExpectString(row, 10)); // 주민번호
+                    emp.setResidentNo(new ResidentNumber(getCellExpectString(row, 10))); // 주민번호
                     emp.setEducation(getCellExpectString(row, 11)); // 학력
                     emp.setCareerMonths(getCellExpectNumeric(row, 12)); // 경력(개월)
                     emp.setRate(getCellExpectString(row, 13)); // 급수
-                    emp.setBankName(getCellExpectString(row, 14)); // 은행명
-                    emp.setAccountNo(getCellExpectString(row, 15)); // 계좌번호
+                    emp.setBank(getCellExpectString(row, 14)); // 은행명
+                    emp.setAccountNumber(getCellExpectString(row, 15)); // 계좌번호
                     emp.setOtherAccountNo(getCellExpectString(row, 16)); // 타인계좌
                     emp.setAddress(getCellExpectString(row, 17)); // 주소3(풀주소)
                     emp.setDormitoryAddress(getCellExpectString(row, 18)); // 숙소
@@ -66,7 +69,7 @@ public class EmployeeService {
                     emp.setLastWorkDate(getCellExpectDate(row, 25)); // 마지막 실근무일
 //                    emp.setLastWorkDate(row.getCell(24).getDateCellValue()); // 퇴사사유
                     emp.setHealthCheck(Objects.equals(getCellExpectString(row, 27), EmpConstant.STRING_ZERO)); // 건강검진
-                    emp.setFamilyRegisterCopy(Objects.equals(getCellExpectString(row, 28), EmpConstant.STRING_ZERO)); // 등본
+                    emp.setFamilyRegister(Objects.equals(getCellExpectString(row, 28), EmpConstant.STRING_ZERO)); // 등본
                     emp.setBankbookCopy(Objects.equals(getCellExpectString(row, 29), EmpConstant.STRING_ZERO)); // 통장사본
                     emp.setEmploymentContract(Objects.equals(getCellExpectString(row, 30), EmpConstant.STRING_ZERO)); // 근로계약서
                     emp.setMealCard(Objects.equals(getCellExpectString(row, 31), EmpConstant.STRING_ZERO)); // 식비
@@ -118,13 +121,26 @@ public class EmployeeService {
         return null;
     }
 
+//    @Transactional
+//    public int insertEmployeeListByExcel(List<Employee> empList) {
+//        employeeMapper.upsertPersonInfoByExcel(empList); // PERSON_INFO
+////        employeeMapper.upsertWorkInfoByExcel(empList); // WORK_INFO
+////        employeeMapper.upsertFinancialStatusByExcel(empList); // FINANCIAL_STATUS
+////        employeeMapper.upsertEducationAndCareerByExcel(empList); // EDUCATION_AND_CAREER
+////        employeeMapper.upsertDocumentStatusByExcel(empList); // DOCUMENT_STATUS
+//        return employeeMapper.insertEmployeeListByExcel(empList);
+//    }
+
     @Transactional
-    public int insertEmployeeListByExcel(List<Employee> empList) {
-        employeeMapper.upsertPersonInfoByExcel(empList); // PERSON_INFO
-//        employeeMapper.upsertWorkInfoByExcel(empList); // WORK_INFO
-//        employeeMapper.upsertFinancialStatusByExcel(empList); // FINANCIAL_STATUS
-//        employeeMapper.upsertEducationAndCareerByExcel(empList); // EDUCATION_AND_CAREER
-//        employeeMapper.upsertDocumentStatusByExcel(empList); // DOCUMENT_STATUS
-        return employeeMapper.insertEmployeeListByExcel(empList);
+    public void employeeRegister(Employee employee) {
+        employeeMapper.upsertPersonInfo(employee);
+        employeeMapper.upsertWorkInfo(employee);
+        employeeMapper.upsertFinancialInfo(employee);
+        employeeMapper.upsertEducationAndCareer(employee);
+        log.debug("INSERT EMPLOYEE : {}",employee);
+    }
+
+    public List<Employee> getEmployeeList() {
+        return employeeMapper.getEmployeeList();
     }
 }

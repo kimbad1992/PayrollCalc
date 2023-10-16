@@ -2,13 +2,159 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.leepay.payrollcalc.mapper.EmployeeMapper">
 
-    <insert id="upsertPersonInfoByExcel">
-        <foreach collection="list" item="item" open="" separator=";" close="">
-            INSERT INTO PERSON_INFO (AFFILIATION, NAME, RESIDENT_NUMBER)
-            VALUES (#{item.affiliation}, #{item.name}, #{item.residentNo})
-            ON CONFLICT (RESIDENT_NUMBER) DO UPDATE
-            SET AFFILIATION = EXCLUDED.AFFILIATION,
-            NAME = EXCLUDED.NAME
-        </foreach>
+    <resultMap id="employeeResultMap" type="employee">
+        <!-- Simple Fields -->
+        <result property="personId" column="PERSON_ID"/>
+        <result property="affiliation" column="AFFILIATION"/>
+        <result property="name" column="NAME"/>
+        <result property="rate" column="RATE"/>
+        <result property="workLocation" column="WORK_LOCATION"/>
+        <result property="position" column="POSITION"/>
+        <result property="emergencyContact" column="EMERGENCY_CONTACT"/>
+        <result property="joinDate" column="JOIN_DATE"/>
+        <result property="bank" column="BANK"/>
+        <result property="accountNumber" column="ACCOUNT_NUMBER"/>
+        <result property="hourlyWage" column="HOURLY_WAGE"/>
+        <result property="salary" column="SALARY"/>
+        <result property="otHourlyWage" column="OT_HOURLY_WAGE"/>
+        <result property="healthCheck" column="HEALTH_CHECK"/>
+        <result property="familyRegister" column="FAMILY_REGISTER"/>
+        <result property="bankbookCopy" column="BANKBOOK_COPY"/>
+        <result property="employmentContract" column="EMPLOYMENT_CONTRACT"/>
+        <result property="education" column="EDUCATION"/>
+        <result property="careerMonths" column="CAREER_MONTHS"/>
+
+        <!-- Nested Fields -->
+        <association property="phone" javaType="phoneNumber">
+            <result property="frontNumber" column="PHONE_FRONT_NUMBER"/>
+            <result property="midNumber" column="PHONE_MID_NUMBER"/>
+            <result property="rearNumber" column="PHONE_REAR_NUMBER"/>
+        </association>
+
+        <association property="residentNo" javaType="residentNumber">
+            <result property="frontNumber" column="RESIDENT_FRONT_NUMBER"/>
+            <result property="rearNumber" column="RESIDENT_REAR_NUMBER"/>
+        </association>
+    </resultMap>
+
+
+
+    <insert id="upsertPersonInfo" parameterType="employee" useGeneratedKeys="true" keyProperty="personId" keyColumn="person_id">
+        INSERT INTO PERSON_INFO (AFFILIATION, NAME, RESIDENT_NUMBER)
+        VALUES (#{affiliation}, #{name}, #{residentNo.residentNo})
+        ON CONFLICT (RESIDENT_NUMBER) DO UPDATE
+        SET AFFILIATION = EXCLUDED.AFFILIATION,
+        NAME = EXCLUDED.NAME
+        RETURNING PERSON_ID
     </insert>
+
+    <insert id="upsertWorkInfo" parameterType="employee">
+        INSERT INTO WORK_INFO
+        (
+             PERSON_ID,
+             RATE,
+             WORK_LOCATION,
+             POSITION, PHONE,
+             EMERGENCY_CONTACT,
+             JOIN_DATE
+        )
+        VALUES
+        (
+            #{personId},
+            #{rate},
+            #{workLocation},
+            #{position},
+            #{phone.phoneNumber},
+            #{emergencyContact},
+            #{joinDate}
+        )
+        ON CONFLICT (PERSON_ID) DO UPDATE SET
+            RATE = EXCLUDED.RATE,
+            WORK_LOCATION = EXCLUDED.WORK_LOCATION,
+            POSITION = EXCLUDED.POSITION,
+            PHONE = EXCLUDED.PHONE,
+            EMERGENCY_CONTACT = EXCLUDED.EMERGENCY_CONTACT,
+            JOIN_DATE = EXCLUDED.JOIN_DATE
+    </insert>
+
+    <insert id="upsertFinancialInfo" parameterType="employee">
+        INSERT INTO FINANCIAL_INFO
+        (
+            PERSON_ID,
+            BANK,
+            ACCOUNT_NUMBER,
+            HOURLY_WAGE,
+            SALARY,
+            OT_HOURLY_WAGE
+        )
+        VALUES
+        (
+            #{personId},
+            #{bank},
+            #{accountNumber},
+            #{hourlyWage},
+            #{salary},
+            #{otHourlyWage}
+        )
+        ON CONFLICT (PERSON_ID) DO UPDATE SET
+            BANK = EXCLUDED.BANK,
+            ACCOUNT_NUMBER = EXCLUDED.ACCOUNT_NUMBER,
+            HOURLY_WAGE = EXCLUDED.HOURLY_WAGE,
+            SALARY = EXCLUDED.SALARY,
+            OT_HOURLY_WAGE = EXCLUDED.OT_HOURLY_WAGE
+    </insert>
+
+    <insert id="upsertEducationAndCareer" parameterType="employee">
+        INSERT INTO EDUCATION_AND_CAREER
+        (
+            PERSON_ID,
+            EDUCATION,
+            CAREER_MONTHS
+        )
+        VALUES
+        (
+            #{personId},
+            #{education},
+            #{careerMonths}
+        )
+        ON CONFLICT (PERSON_ID) DO UPDATE SET
+            EDUCATION = EXCLUDED.EDUCATION,
+            CAREER_MONTHS = EXCLUDED.CAREER_MONTHS
+    </insert>
+    <select id="getEmployeeList" resultMap="employeeResultMap">
+        SELECT
+             A.PERSON_ID,
+             A.AFFILIATION,
+             A.NAME,
+             SPLIT_PART(A.RESIDENT_NUMBER, '-', 1) AS RESIDENT_FRONT_NUMBER,
+             SPLIT_PART(A.RESIDENT_NUMBER, '-', 2) AS RESIDENT_REAR_NUMBER,
+             B.RATE,
+             B.WORK_LOCATION,
+             B.POSITION,
+             SPLIT_PART(B.PHONE, '-', 1) AS PHONE_FRONT_NUMBER,
+             SPLIT_PART(B.PHONE, '-', 2) AS PHONE_MID_NUMBER,
+             SPLIT_PART(B.PHONE, '-', 3) AS PHONE_REAR_NUMBER,
+             B.EMERGENCY_CONTACT,
+             B.JOIN_DATE,
+             C.BANK,
+             C.ACCOUNT_NUMBER,
+             C.HOURLY_WAGE,
+             C.SALARY,
+             C.OT_HOURLY_WAGE,
+             D.HEALTH_CHECK,
+             D.FAMILY_REGISTER,
+             D.BANKBOOK_COPY,
+             D.EMPLOYMENT_CONTRACT,
+             E.EDUCATION,
+             E.CAREER_MONTHS
+        FROM PERSON_INFO A
+   LEFT JOIN WORK_INFO B
+          ON A.PERSON_ID = B.PERSON_ID
+   LEFT JOIN FINANCIAL_INFO C
+          ON A.PERSON_ID = C.PERSON_ID
+   LEFT JOIN DOCUMENT_STATUS D
+          ON A.PERSON_ID = D.PERSON_ID
+   LEFT JOIN EDUCATION_AND_CAREER E
+          ON A.PERSON_ID = E.PERSON_ID;
+    </select>
 </mapper>
