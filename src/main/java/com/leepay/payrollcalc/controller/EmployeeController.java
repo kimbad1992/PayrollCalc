@@ -48,7 +48,7 @@ public class EmployeeController {
 
     /* 사원 정보 수정 페이지 */
     @RequestMapping("/edit/{personId}")
-    public String employeeEdit(@PathVariable String personId, Model model) {
+    public String employeeEdit(@PathVariable Integer personId, Model model) {
         model.addAttribute("employee", employeeService.getEmployeeDetail(personId));
         return "/employee/edit";
     }

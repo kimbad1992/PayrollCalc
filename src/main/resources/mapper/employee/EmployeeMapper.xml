@@ -158,7 +158,7 @@
           ON A.PERSON_ID = E.PERSON_ID;
     </select>
 
-    <select id="getEmployeeDetail" parameterType="String" resultMap="employeeResultMap">
+    <select id="getEmployeeDetail" parameterType="Integer" resultMap="employeeResultMap">
         SELECT
             A.PERSON_ID,
             A.AFFILIATION,

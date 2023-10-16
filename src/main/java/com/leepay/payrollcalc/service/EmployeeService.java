@@ -144,7 +144,7 @@ public class EmployeeService {
         return employeeMapper.getEmployeeList();
     }
 
-    public Employee getEmployeeDetail(String personId) {
+    public Employee getEmployeeDetail(Integer personId) {
         return employeeMapper.getEmployeeDetail(personId);
     }
 }

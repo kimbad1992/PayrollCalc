@@ -20,5 +20,5 @@ public interface EmployeeMapper {
 
     List<Employee> getEmployeeList();
 
-    Employee getEmployeeDetail(String personId);
+    Employee getEmployeeDetail(Integer personId);
 }
