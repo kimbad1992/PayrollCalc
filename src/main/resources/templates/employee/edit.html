@@ -5,7 +5,7 @@
 
     <th:block th:replace="~{/fragments/head :: head}"></th:block>
 
-    <title>사원 등록</title>
+    <title>사원 정보 수정</title>
 
 </head>
 
@@ -127,7 +127,7 @@
                                     <label for="careerMonths">경력(개월)<sup class="text-danger">*</sup></label>
                                     <input type="text" class="form-control" id="careerMonths" name="careerMonths" required>
                                 </div>
-                                <button type="button" class="btn btn-primary" onclick="employeeRegister()">등록</button>
+                                <button type="button" class="btn btn-primary" onclick="employeeRegister()">수정</button>
                             </div>
                             <span></span>
                         </form>
@@ -165,11 +165,11 @@
                 if (typeof result === 'number') {
                     // HTTP 상태 코드를 받은 경우 (실패)
                     console.log("fail",result);
-                    alert('사원 등록에 실패했습니다.');
+                    alert('사원 수정에 실패했습니다.');
                 } else {
                     // JSON 결과를 받은 경우 (성공)
                     console.log("success",result)
-                    if(confirm('사원 등록에 성공했습니다. 목록으로 이동하시겠습니까?')) {
+                    if(confirm('사원 수정에 성공했습니다. 목록으로 이동하시겠습니까?')) {
                         location.href="/employee/list";
                     }
                 }

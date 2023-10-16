@@ -27,6 +27,13 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
+    /* 사원 조회 페이지 */
+    @RequestMapping("/list")
+    public String employeeListPage(Model model, HttpServletRequest request) {
+        model.addAttribute("employeeList", employeeService.getEmployeeList());
+        return "/employee/list";
+    }
+
     /* 사원 등록 페이지 */
     @RequestMapping("/register")
     public String employeeRegisterPage() {
@@ -39,11 +46,24 @@ public class EmployeeController {
         return "/employee/excel";
     }
 
-    /* 사원 조회 페이지 */
-    @RequestMapping("/list")
-    public String employeeListPage(Model model, HttpServletRequest request) {
-        model.addAttribute("employeeList", employeeService.getEmployeeList());
-        return "/employee/list";
+    /* 사원 정보 수정 페이지 */
+    @RequestMapping("/edit/{personId}")
+    public String employeeEdit(@PathVariable String personId, Model model) {
+        model.addAttribute("employee", employeeService.getEmployeeDetail(personId));
+        return "/employee/edit";
+    }
+
+    @PostMapping("/employeeRegister.do")
+    @ResponseBody
+    public ResponseEntity<?> employeeRegister(@Valid @ModelAttribute Employee employee, BindingResult bindingResult) {
+        log.debug("사원 정보 : {}", employee);
+
+        if (bindingResult.hasErrors()) {
+            return new ErrorResponse(bindingResult).build();
+        }
+
+        employeeService.employeeRegister(employee);
+        return new ApiResponse<>().build();
     }
 
     /**
@@ -59,18 +79,5 @@ public class EmployeeController {
         List<Employee> empList = employeeService.parsingExcel(file);
 //        return new ApiResponse(employeeService.insertEmployeeListByExcel(empList)).build();
         return new ApiResponse(null).build();
-    }
-
-    @PostMapping("/employeeRegister.do")
-    @ResponseBody
-    public ResponseEntity<?> employeeRegister(@Valid @ModelAttribute Employee employee, BindingResult bindingResult) {
-        log.debug("사원 정보 : {}", employee);
-
-        if (bindingResult.hasErrors()) {
-            return new ErrorResponse(bindingResult).build();
-        }
-
-        employeeService.employeeRegister(employee);
-        return new ApiResponse<>().build();
     }
 }

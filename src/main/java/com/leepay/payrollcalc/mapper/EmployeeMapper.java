@@ -19,4 +19,6 @@ public interface EmployeeMapper {
     void upsertEducationAndCareer(Employee employee);
 
     List<Employee> getEmployeeList();
+
+    Employee getEmployeeDetail(String personId);
 }

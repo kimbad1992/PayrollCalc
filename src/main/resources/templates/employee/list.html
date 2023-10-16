@@ -6,7 +6,7 @@
     <th:block th:replace="~{/fragments/head :: head}"></th:block>
     <!-- Custom styles for this page -->
     <link th:href="@{/bootstrap/vendor/datatables/dataTables.bootstrap4.min.css}" rel="stylesheet">
-    <title>SB Admin 2 - Tables</title>
+    <title>사원 목록 조회</title>
 
 </head>
 
@@ -29,10 +29,11 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Tables</h1>
-                    <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
-                        For more information about DataTables, please visit the <a target="_blank"
-                            href="https://datatables.net">official DataTables documentation</a>.</p>
+                    <h1 class="h3 mb-2 text-gray-800">사원 조회</h1>
+                    <p class="mb-4">
+                        검색 창에 검색어 입력 시 해당 검색어로 필터링된 항목이 조회됩니다.<br>
+                        <span class="text-primary">이름</span>을 클릭 시 해당 사원의 정보 수정 페이지로 이동합니다.
+                    </p>
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
@@ -54,19 +55,19 @@
                                             <th>OT시급</th>
                                         </tr>
                                     </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>순서</th>
-                                            <th>소속명</th>
-                                            <th>성 명</th>
-                                            <th>근무지</th>
-                                            <th>직급</th>
-                                            <!-- ... 다른 헤더 ... -->
-                                            <th>급여</th>
-                                            <th>OT시급</th>
-                                        </tr>
-                                    </tfoot>
                                     <tbody>
+                                    <tr th:each="employee, iterStat : ${employeeList}">
+                                        <td th:text="${iterStat.count}"></td> <!-- 순서 -->
+                                        <td th:text="${employee.affiliation}"></td> <!-- 소속명 -->
+                                        <td>
+                                            <a th:href="@{/employee/edit/{id}(id=${employee.personId})}" class="text-primary" th:text="${employee.name}"></a>
+                                        </td>
+                                        <td th:text="${employee.workLocation}"></td> <!-- 근무지 -->
+                                        <td th:text="${employee.position}"></td> <!-- 직급 -->
+                                        <!-- ... 다른 필드 ... -->
+                                        <td th:text="${employee.salary}"></td> <!-- 급여 -->
+                                        <td th:text="${employee.otHourlyWage}"></td> <!-- OT시급 -->
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -106,7 +107,33 @@
 <!-- Page level plugins -->
 <script th:src="@{/bootstrap/vendor/datatables/jquery.dataTables.min.js}"></script>
 <script th:src="@{/bootstrap/vendor/datatables/dataTables.bootstrap4.min.js}"></script>
-
-<!-- Page level custom scripts -->
-<script th:src="@{/bootstrap/js/demo/datatables-demo.js}"></script>
+<script>
+    $('#dataTable').DataTable({
+        paging : true,
+        select: true,
+        language: {
+            "search" : "검색",
+            "lengthMenu" : "_MENU_개씩 보기",
+            "paginate": {
+                "first" : "<<",
+                "last" : ">>",
+                "next": ">",
+                "previous": "<"
+            },
+            "emptyTable": "조회된 결과가 없습니다.",
+            "info": "_TOTAL_개의 항목 중 _START_부터 _END_까지 표시",
+            "infoEmpty": "0개의 항목",
+            "zeroRecords": "검색 결과가 없습니다.",
+            "infoFiltered": "(_MAX_개의 결과로부터 필터링 됨)"
+        },
+        "columnDefs": [
+            {
+                "targets": [5,6],
+                "render": function ( data, type, row ) {
+                    return (data === null || data === "null" || data === "" || data === 0) ? '-' : data;
+                }
+            }
+        ]
+    })
+</script>
 </html>

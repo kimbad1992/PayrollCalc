@@ -157,4 +157,42 @@
    LEFT JOIN EDUCATION_AND_CAREER E
           ON A.PERSON_ID = E.PERSON_ID;
     </select>
+
+    <select id="getEmployeeDetail" parameterType="String" resultMap="employeeResultMap">
+        SELECT
+            A.PERSON_ID,
+            A.AFFILIATION,
+            A.NAME,
+            SPLIT_PART(A.RESIDENT_NUMBER, '-', 1) AS RESIDENT_FRONT_NUMBER,
+            SPLIT_PART(A.RESIDENT_NUMBER, '-', 2) AS RESIDENT_REAR_NUMBER,
+            B.RATE,
+            B.WORK_LOCATION,
+            B.POSITION,
+            SPLIT_PART(B.PHONE, '-', 1) AS PHONE_FRONT_NUMBER,
+            SPLIT_PART(B.PHONE, '-', 2) AS PHONE_MID_NUMBER,
+            SPLIT_PART(B.PHONE, '-', 3) AS PHONE_REAR_NUMBER,
+            B.EMERGENCY_CONTACT,
+            B.JOIN_DATE,
+            C.BANK,
+            C.ACCOUNT_NUMBER,
+            C.HOURLY_WAGE,
+            C.SALARY,
+            C.OT_HOURLY_WAGE,
+            D.HEALTH_CHECK,
+            D.FAMILY_REGISTER,
+            D.BANKBOOK_COPY,
+            D.EMPLOYMENT_CONTRACT,
+            E.EDUCATION,
+            E.CAREER_MONTHS
+        FROM PERSON_INFO A
+ LEFT JOIN WORK_INFO B
+           ON A.PERSON_ID = B.PERSON_ID
+ LEFT JOIN FINANCIAL_INFO C
+           ON A.PERSON_ID = C.PERSON_ID
+ LEFT JOIN DOCUMENT_STATUS D
+           ON A.PERSON_ID = D.PERSON_ID
+ LEFT JOIN EDUCATION_AND_CAREER E
+           ON A.PERSON_ID = E.PERSON_ID
+    WHERE A.PERSON_ID = #{personId}
+    </select>
 </mapper>
