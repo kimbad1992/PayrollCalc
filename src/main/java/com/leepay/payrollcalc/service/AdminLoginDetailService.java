@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.util.StringUtils;
 
 @Service
 public class AdminLoginDetailService implements UserDetailsService {
@@ -17,6 +18,7 @@ public class AdminLoginDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        if (StringUtils.isEmpty(username)) throw new UsernameNotFoundException("ID를 입력해주세요.");
         AdminUser adminUser = mainMapper.getAdminUser(username);
 
         if (adminUser == null) throw new UsernameNotFoundException(username + "을 찾을 수 없습니다.");
