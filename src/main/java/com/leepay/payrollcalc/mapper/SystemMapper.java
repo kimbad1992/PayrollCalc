@@ -4,6 +4,6 @@ import com.leepay.payrollcalc.dto.Menu;
 
 import java.util.List;
 
-public interface CommonMapper {
+public interface SystemMapper {
     List<Menu> getAllMenu();
 }

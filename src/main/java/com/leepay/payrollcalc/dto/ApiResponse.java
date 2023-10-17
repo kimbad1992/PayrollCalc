@@ -1,6 +1,6 @@
 package com.leepay.payrollcalc.dto;
 
-import com.leepay.payrollcalc.constant.EmpConstant;
+import com.leepay.payrollcalc.constant.Constant;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.HttpHeaders;
@@ -8,8 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
-import com.leepay.payrollcalc.exception.ErrorCode;
-import org.springframework.validation.FieldError;
 
 @Getter
 @Setter
@@ -29,15 +27,15 @@ public class ApiResponse<T> {
 
     public ApiResponse()  {
         this.result = "T";
-        this.msg = EmpConstant.SUCCESSFUL_RESPONSE_MSG;
-        this.code = EmpConstant.STRING_ZERO;
+        this.msg = Constant.SUCCESSFUL_RESPONSE_MSG;
+        this.code = Constant.STRING_ZERO;
         this.status = HttpStatus.OK;
     }
 
     public ApiResponse(@Nullable T data) {
         this.result = "T";
-        this.msg = EmpConstant.SUCCESSFUL_RESPONSE_MSG;
-        this.code = EmpConstant.STRING_ZERO;
+        this.msg = Constant.SUCCESSFUL_RESPONSE_MSG;
+        this.code = Constant.STRING_ZERO;
         this.status = HttpStatus.OK;
         this.data = data;
     }

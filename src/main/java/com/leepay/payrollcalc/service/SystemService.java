@@ -1,7 +1,7 @@
 package com.leepay.payrollcalc.service;
 
 import com.leepay.payrollcalc.dto.Menu;
-import com.leepay.payrollcalc.mapper.CommonMapper;
+import com.leepay.payrollcalc.mapper.SystemMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,13 +11,13 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class CommonService {
+public class SystemService {
 
     @Autowired
-    private CommonMapper commonMapper;
+    private SystemMapper systemMapper;
 
     public List<Menu> getAllMenu() {
-        List<Menu> menus = commonMapper.getAllMenu();
+        List<Menu> menus = systemMapper.getAllMenu();
         Map<String, Menu> menuMap = new HashMap<>();
         List<Menu> topLevelMenus = new ArrayList<>();
 

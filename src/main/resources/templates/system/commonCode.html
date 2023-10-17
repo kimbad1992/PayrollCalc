@@ -6,7 +6,30 @@
     <th:block th:replace="~{/fragments/head :: head}"></th:block>
 
     <title>Main</title>
+    <style>
+        .groupCodeTable {
+            max-height: 400px;
+            overflow-y: auto;
+        }
 
+        /* 커스텀 스크롤바를 적용할 테이블 선택 */
+        .groupCodeTable::-webkit-scrollbar {
+            width: 12px;  /* 스크롤바 너비 */
+        }
+
+        .groupCodeTable::-webkit-scrollbar-track {
+            background: #f1f1f1;  /* 트랙 배경색 */
+        }
+
+        .groupCodeTable::-webkit-scrollbar-thumb {
+            background: #888;  /* 핸들 배경색 */
+            border-radius: 4px;  /* 핸들 둥글게 */
+        }
+
+        .groupCodeTable::-webkit-scrollbar-thumb:hover {
+            background: #555;  /* 마우스 오버시 핸들 배경색 */
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -33,12 +56,17 @@
                     <div class="card shadow mb-4">
                         <div class="card-header d-flex justify-content-between">
                             <h4>그룹코드 목록</h4>
-                            <button id="addGroupCode" class="btn btn-primary">그룹코드 등록</button>
+                            <div class="btn-group-sm">
+                                <button class="btn btn-info" onclick="addGroupCode()">추가</button>
+                                <button class="btn btn-danger" onclick="deleteGroupCode()">삭제</button>
+                                <button class="btn btn-primary" onclick="insertGroupCode()">등록</button>
+                            </div>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body groupCodeTable">
                             <table class="table">
                                 <thead>
                                 <tr>
+                                    <th><i class="fa fa-check" aria-hidden="true"></i></th>
                                     <th>그룹코드 ID</th>
                                     <th>그룹코드 이름</th>
                                     <th>설명</th>
@@ -65,6 +93,7 @@
                                     <table class="table">
                                         <thead>
                                         <tr>
+                                            <th><i class="fa fa-check" aria-hidden="true"></i></th>
                                             <th>코드 ID</th>
                                             <th>코드 이름</th>
                                             <th>코드 값</th>
@@ -132,4 +161,89 @@
 </body>
 <!-- Script Fragments -->
 <th:block th:replace="fragments/config :: config" ></th:block>
+
+<script>
+
+    function addGroupCode () {
+        // <tbody id="groupCodeList">
+        const tableBody = document.getElementById("groupCodeList");
+        // 새로운 행 생성
+        const newRow = document.createElement("tr");
+        newRow.setAttribute("data-new", 'true') // 새로 추가된 데이터 구분용 Flag
+
+        // 그룹코드 컬럼명
+        const columns = ['group_code_checkbox', 'group_code_id', 'group_code_name', 'group_code_desc'];
+        columns.forEach((col) => {
+            // 새로운 셀
+            const newCell = document.createElement("td");
+
+            // Input이 들어갈 Form-Group (부트스트랩)
+            const formGroup = document.createElement("div");
+            formGroup.className = "form-group";
+
+            // Label 생성
+            const labelElement = document.createElement("label");
+            labelElement.setAttribute("for", col);
+            // labelElement.textContent = col.replace(/_/g, ' ').toUpperCase(); // 언더바 대문자 변환
+
+            // Input 생성
+            const inputElement = document.createElement("input");
+            inputElement.type = col !== 'group_code_checkbox' ? "text" : "checkbox";
+            inputElement.className = "form-control";
+            inputElement.id = col;
+            inputElement.name = col;
+            if (col === 'group_code_checkbox') {
+                inputElement.checked = true;
+            }
+
+            formGroup.appendChild(labelElement);
+            formGroup.appendChild(inputElement);
+
+            newCell.appendChild(formGroup);
+
+            newRow.appendChild(newCell);
+        });
+
+        tableBody.appendChild(newRow);
+    }
+
+    function insertGroupCode() {
+        const tableBody = document.getElementById("groupCodeList");
+        const newRows = Array.from(tableBody.querySelectorAll("tr[data-new='true']"));
+
+        if (newRows.length > 0) {
+            let groupCodeArr = [];
+            newRows.forEach((row) => {
+                const cells = Array.from(row.querySelectorAll("td"));
+                const rowData = {};
+
+                cells.forEach((cell) => {
+                    const inputElement = cell.querySelector("input");
+                    if (inputElement && inputElement.type === 'text') { // 신규 등록에서는 체크박스 정보는 담지 않음
+                        const key = inputElement.name;
+                        rowData[key] = inputElement.type === "checkbox" ? inputElement.checked : inputElement.value;
+                    }
+                });
+                groupCodeArr.push(rowData);
+            })
+            ComUtils.callFetch("/system/insertGroupCode.do", JSON.stringify(groupCodeArr), {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(result => {
+                alert(result)
+            })
+            .catch(error => {
+                alert(error)
+            })
+        } else {
+            alert('추가할 그룹 코드가 없습니다.')
+        }
+    }
+
+    function deleteGroupCode() {
+
+    }
+</script>
 </html>

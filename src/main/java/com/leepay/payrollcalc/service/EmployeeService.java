@@ -1,20 +1,17 @@
 package com.leepay.payrollcalc.service;
 
-import com.leepay.payrollcalc.constant.EmpConstant;
+import com.leepay.payrollcalc.constant.Constant;
 import com.leepay.payrollcalc.dto.Employee;
 import com.leepay.payrollcalc.dto.PhoneNumber;
 import com.leepay.payrollcalc.dto.ResidentNumber;
 import com.leepay.payrollcalc.exception.CommonException;
 import com.leepay.payrollcalc.exception.ErrorCode;
 import com.leepay.payrollcalc.mapper.EmployeeMapper;
-import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.openxml4j.util.ZipSecureFile;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -68,13 +65,13 @@ public class EmployeeService {
                     emp.setResignationDate(getCellExpectDate(row, 24)); // 퇴사일
                     emp.setLastWorkDate(getCellExpectDate(row, 25)); // 마지막 실근무일
 //                    emp.setLastWorkDate(row.getCell(24).getDateCellValue()); // 퇴사사유
-                    emp.setHealthCheck(Objects.equals(getCellExpectString(row, 27), EmpConstant.STRING_ZERO)); // 건강검진
-                    emp.setFamilyRegister(Objects.equals(getCellExpectString(row, 28), EmpConstant.STRING_ZERO)); // 등본
-                    emp.setBankbookCopy(Objects.equals(getCellExpectString(row, 29), EmpConstant.STRING_ZERO)); // 통장사본
-                    emp.setEmploymentContract(Objects.equals(getCellExpectString(row, 30), EmpConstant.STRING_ZERO)); // 근로계약서
-                    emp.setMealCard(Objects.equals(getCellExpectString(row, 31), EmpConstant.STRING_ZERO)); // 식비
-                    emp.setReferralBonus(Objects.equals(getCellExpectString(row, 32), EmpConstant.STRING_ZERO)); // 추천수당
-                    emp.setReturnStatus(Objects.equals(getCellExpectString(row, 33), EmpConstant.STRING_ZERO)); // 퇴사자 반납여부
+                    emp.setHealthCheck(Objects.equals(getCellExpectString(row, 27), Constant.STRING_ZERO)); // 건강검진
+                    emp.setFamilyRegister(Objects.equals(getCellExpectString(row, 28), Constant.STRING_ZERO)); // 등본
+                    emp.setBankbookCopy(Objects.equals(getCellExpectString(row, 29), Constant.STRING_ZERO)); // 통장사본
+                    emp.setEmploymentContract(Objects.equals(getCellExpectString(row, 30), Constant.STRING_ZERO)); // 근로계약서
+                    emp.setMealCard(Objects.equals(getCellExpectString(row, 31), Constant.STRING_ZERO)); // 식비
+                    emp.setReferralBonus(Objects.equals(getCellExpectString(row, 32), Constant.STRING_ZERO)); // 추천수당
+                    emp.setReturnStatus(Objects.equals(getCellExpectString(row, 33), Constant.STRING_ZERO)); // 퇴사자 반납여부
                     emp.setPayGrade(getCellExpectString(row, 34)); // 호봉
                     emp.setHourlyWage(getCellExpectNumeric(row, 35)); // 시급
                     emp.setSalary(getCellExpectNumeric(row, 36)); // 급여

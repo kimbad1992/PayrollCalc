@@ -40,7 +40,7 @@ $(() => {
 });
 
 const ComUtils = {
-    callFetch : async (url, data) => {
+    callFetch : async (url, data, options) => {
         return new Promise(async (resolve, reject) => {
 
             // fetch 메서드에서 사용할 공통 로딩 레이어
@@ -52,6 +52,17 @@ const ComUtils = {
             loadingText.textContent = 'Loading..';
             loadingLayer.appendChild(loadingText);
             content.appendChild(loadingLayer);
+
+            const defaultOptions = {
+                method: 'POST',
+                body: data,
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                }
+            };
+
+            // defaultOptions과 전달받은 options을 병합
+            const fetchOptions = { ...defaultOptions, ...options };
 
             try {
                 const response = await fetch(url, {
