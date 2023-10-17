@@ -85,7 +85,8 @@ CREATE TABLE ADMIN_MENU (
                             gnb_name VARCHAR(100) NOT NULL,
                             role_id INT REFERENCES ADMIN_ROLES(id),
                             parent_page_seq INT REFERENCES ADMIN_MENU(page_seq),
-                            level INT NOT NULL
+                            level INT NOT NULL,
+                            icon_class VARCHAR(100)
 );
 INSERT INTO public.admin_menu
 (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, "level")

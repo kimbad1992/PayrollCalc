@@ -18,4 +18,5 @@ public class Menu {
     String level;
     String role_name;
     List<Menu> sub_menus = new ArrayList<Menu>();
+    String icon_class; // Font Awesome 4 아이콘 사용을 위한 클래스명 지정
 }

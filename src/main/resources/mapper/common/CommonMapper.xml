@@ -12,6 +12,7 @@
               ,A.PARENT_PAGE_SEQ
               ,A.LEVEL
               ,B.NAME AS ROLE_NAME
+              ,A.ICON_CLASS
          FROM ADMIN_MENU A
          JOIN ADMIN_ROLES B
            ON B.ID = A.ROLE_ID

@@ -41,7 +41,7 @@
            th:data-target="${menu.sub_menus != null} ? '#collapse' + ${menu.page_seq} : null"
            aria-expanded="false"
            aria-controls="collapseUtilities">
-            <i class="fas fa-fw fa-wrench"></i>
+            <i th:class="${menu.icon_class != null} ? ${menu.icon_class} : ''"></i>
             <span th:text="${menu.gnb_name}"></span>
         </a>
         <div th:if="${menu.sub_menus != null}"
