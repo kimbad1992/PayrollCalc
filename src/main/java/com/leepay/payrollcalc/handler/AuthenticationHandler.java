@@ -19,14 +19,14 @@ public class AuthenticationHandler implements AuthenticationSuccessHandler, Auth
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         log.debug("로그인 유저 : {}", authentication.getName());
-        request.getSession().removeAttribute("msg");
+        request.getSession().removeAttribute("errorMsg"); // 로그인 성공 시 에러 메시지 제거
         response.sendRedirect(request.getContextPath()+"/main");
     }
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         log.debug("로그인 실패 : {}", exception.getMessage());
-        request.getSession().setAttribute("msg", exception.getMessage());
+        request.getSession().setAttribute("errorMsg", exception.getMessage());
         response.sendRedirect(request.getContextPath()+"/login");
     }
 }

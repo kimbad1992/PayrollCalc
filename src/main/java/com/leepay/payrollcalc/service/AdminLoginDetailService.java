@@ -21,7 +21,7 @@ public class AdminLoginDetailService implements UserDetailsService {
         if (StringUtils.isEmpty(username)) throw new UsernameNotFoundException("ID를 입력해주세요.");
         AdminUser adminUser = mainMapper.getAdminUser(username);
 
-        if (adminUser == null) throw new UsernameNotFoundException(username + "을 찾을 수 없습니다.");
+        if (adminUser == null) throw new UsernameNotFoundException("아이디 또는 비밀번호를 잘못 입력했습니다.");
         if (!adminUser.getEnabled()) throw new UsernameNotFoundException("사용할 수 없는 계정입니다.");
         return new AdminDetails(adminUser);
     }

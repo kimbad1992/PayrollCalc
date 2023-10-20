@@ -65,10 +65,7 @@ const ComUtils = {
             const fetchOptions = { ...defaultOptions, ...options };
 
             try {
-                const response = await fetch(url, {
-                    method: 'POST',
-                    body: data
-                });
+                const response = await fetch(url, fetchOptions);
 
                 if (response.ok) {
                     const result = await response.json();
