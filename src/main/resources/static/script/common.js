@@ -3,7 +3,7 @@ $(() => {
         var currentUrl = window.location.pathname;
 
         // 모든 서브메뉴 아이템을 순회
-        $('.collapse-item').each(function() {
+        $('.collapse-item').each(()=> {
             var $this = $(this);
 
             // 서브메뉴의 URL과 현재 URL이 일치하는지 확인
@@ -25,7 +25,7 @@ $(() => {
         });
 
         // 에러 메시지 삭제용
-        $('input').on('input', function() {
+        $('input').on('input', () => {
             // 테두리 제거
             if ($(this).hasClass('is-invalid')) {
                 $(this).removeClass('is-invalid');
@@ -43,6 +43,8 @@ const ComUtils = {
     callFetch : async (url, data, options) => {
         return new Promise(async (resolve, reject) => {
 
+            console.log(data);
+
             // fetch 메서드에서 사용할 공통 로딩 레이어
             const content = document.getElementById('content');
             const loadingLayer = document.createElement('div');
@@ -56,9 +58,9 @@ const ComUtils = {
             const defaultOptions = {
                 method: 'POST',
                 body: data,
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-                }
+                // headers: {
+                //     'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                // }
             };
 
             // defaultOptions과 전달받은 options을 병합
