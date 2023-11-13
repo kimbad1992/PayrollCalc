@@ -5,9 +5,9 @@ spring:
   datasource:
 #    driver-class-name: org.postgresql.Driver
     driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    jdbc-url: jdbc:log4jdbc:postgresql://localhost:5432/payroll_auto
-    username: payroll
-    password: payroll23
+    jdbc-url: ENC(a6lTCjWGBxoCrSeLZkucn/5qCBCHN6QHkC0u5b6T6sWG1uXM2Wll3sdfX8O17z6negsCoNWQJ6paz6NS+6zlxQ==)
+    username: ENC(663QhnIKwurloIFkIjsD2A==)
+    password: ENC(rNRfLF7icGDV18b4EJMI7kqZTL7l5L9u)
     type: com.zaxxer.hikari.HikariDataSource
   servlet:
     multipart:
