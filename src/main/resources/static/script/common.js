@@ -3,7 +3,7 @@ $(() => {
         var currentUrl = window.location.pathname;
 
         // 모든 서브메뉴 아이템을 순회
-        $('.collapse-item').each(()=> {
+        $('.collapse-item').each(function() {
             var $this = $(this);
 
             // 서브메뉴의 URL과 현재 URL이 일치하는지 확인
