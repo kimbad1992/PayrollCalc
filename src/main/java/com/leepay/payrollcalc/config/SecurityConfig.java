@@ -37,6 +37,7 @@ public class SecurityConfig {
                         .requestMatchers(new AntPathRequestMatcher("/css/**")
                                 ,new AntPathRequestMatcher("/js/**")
                                 ,new AntPathRequestMatcher("/images/**")
+                                ,new AntPathRequestMatcher("/favicon/**")
                                 ,new AntPathRequestMatcher("/bootstrap/**/**")
                         ).permitAll()
                         .anyRequest().authenticated()
