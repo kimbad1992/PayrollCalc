@@ -9,6 +9,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -24,10 +25,11 @@ public class AdminAuthenticatorProvider implements AuthenticationProvider {
 
         AdminDetails adminDetails = (AdminDetails) adminLoginDetailService.loadUserByUsername(username);
 
-        String dbPassword = adminDetails.getPassword();
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-        //TODO : 암호화 추가
-        if (!dbPassword.equals(password)) {
+        String dbPassword = adminDetails.getPassword(); // 이미 암호화된 값
+
+        if (!encoder.matches(password, dbPassword)) { // 비밀번호 원본과 암호화된 비밀번호를 대조
             throw new BadCredentialsException("아이디 또는 비밀번호가 일치하지 않습니다.");
         }
 
