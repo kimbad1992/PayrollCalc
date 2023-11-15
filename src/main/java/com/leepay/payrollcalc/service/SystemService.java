@@ -1,6 +1,8 @@
 package com.leepay.payrollcalc.service;
 
+import com.leepay.payrollcalc.dto.AdminUser;
 import com.leepay.payrollcalc.dto.Menu;
+import com.leepay.payrollcalc.mapper.MainMapper;
 import com.leepay.payrollcalc.mapper.SystemMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ public class SystemService {
 
     @Autowired
     private SystemMapper systemMapper;
+
 
     public List<Menu> getAllMenu() {
         List<Menu> menus = systemMapper.getAllMenu();
@@ -36,5 +39,9 @@ public class SystemService {
             }
         }
         return topLevelMenus;
+    }
+
+    public List<AdminUser> getAdminUserList() {
+        return systemMapper.getAdminUserList();
     }
 }

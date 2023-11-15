@@ -3,6 +3,7 @@ package com.leepay.payrollcalc.service;
 import com.leepay.payrollcalc.dto.AdminDetails;
 import com.leepay.payrollcalc.dto.AdminUser;
 import com.leepay.payrollcalc.mapper.MainMapper;
+import com.leepay.payrollcalc.mapper.SystemMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,12 +15,11 @@ import org.thymeleaf.util.StringUtils;
 public class AdminLoginDetailService implements UserDetailsService {
 
     @Autowired
-    private MainMapper mainMapper;
-
+    private SystemMapper systemMapper;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         if (StringUtils.isEmpty(username)) throw new UsernameNotFoundException("ID를 입력해주세요.");
-        AdminUser adminUser = mainMapper.getAdminUser(username);
+        AdminUser adminUser = systemMapper.getAdminUser(username);
 
         if (adminUser == null) throw new UsernameNotFoundException("아이디 또는 비밀번호를 잘못 입력했습니다.");
         if (!adminUser.getEnabled()) throw new UsernameNotFoundException("사용할 수 없는 계정입니다.");
