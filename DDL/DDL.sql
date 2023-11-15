@@ -58,9 +58,16 @@ CREATE TABLE ADMIN_USERS (
                              id SERIAL PRIMARY KEY,
                              username VARCHAR(50) UNIQUE NOT NULL,
                              password VARCHAR(100) NOT NULL,
-                             enabled BOOLEAN DEFAULT TRUE
+                             enabled BOOLEAN DEFAULT TRUE,
+                             email VARCHAR(255) UNIQUE,
+                             oauth_provider VARCHAR(50),
+                             oauth_provider_id VARCHAR(100),
+                             oauth_profile_picture VARCHAR(255),
+                             two_factor_enabled BOOLEAN DEFAULT FALSE,
+                             two_factor_secret VARCHAR(100)
 );
-INSERT INTO public.admin_users (id, username, "password", enabled) VALUES(1, 'leepay', '1234', true);
+
+INSERT INTO public.admin_users (id, username, "password", enabled) VALUES(1, 'leepay', '$2a$12$.JM/B5OymjeJ0aDbkBxBm.hlkJ6HAr9P76.FTZLj/5vxABbKzKSMy', true);
 ------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE ADMIN_ROLES (
                              id SERIAL PRIMARY KEY,
