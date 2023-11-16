@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <th:block th:replace="~{/fragments/head :: head}"></th:block>
+
+    <title>Main</title>
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <div id="sidebar" th:replace="~{/fragments/sidebar :: sidebar}"></div>
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <div id="topbar" th:replace="~{/fragments/topbar :: topbar}"></div>
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800">놀이터 - 카카오맵 API</h1>
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">카카오 맵 API</h6>
+                        </div>
+                        <div id="mapWrap">
+                            <div id="kakaoMap" style="width:auto;height:500px;">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer th:replace="~{/fragments/footer :: footer}">
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+</body>
+<!-- Script Fragments -->
+<th:block th:replace="~{/fragments/config :: config}" ></th:block>
+<script th:src="'//dapi.kakao.com/v2/maps/sdk.js?appkey=' + ${appKey}"></script>
+<script>
+    function initMap(latitude, longitude) {
+        var mapContainer = document.getElementById('kakaoMap'), // 지도를 표시할 div
+            mapOption = {
+                center: new kakao.maps.LatLng(latitude, longitude), // 사용자의 현재 위치
+                level: 3 // 지도의 확대 레벨
+            };
+
+        // 지도 생성
+        var map = new kakao.maps.Map(mapContainer, mapOption);
+
+        // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
+        var zoomControl = new kakao.maps.ZoomControl();
+        map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+    }
+
+    if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            // 사용자의 위치를 받아 지도 초기화
+            initMap(position.coords.latitude, position.coords.longitude);
+        }, function(error) {
+            // 위치 정보를 받아오지 못한 경우, 기본 위치를 사용
+            initMap(33.450701, 126.570667); // 기본 좌표 설정
+        });
+    } else {
+        // Geolocation API를 사용할 수 없는 경우, 기본 위치를 사용
+        initMap(33.450701, 126.570667); // 기본 좌표 설정
+    }
+</script>
+
+</html>

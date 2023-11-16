@@ -50,3 +50,8 @@ logging:
 # 아래는 시스템에서 사용하는 프로퍼티 값임
 system:
   login-mode: session # jwt / session로 구분
+  kakao-api-key:
+    native: ENC(EpJdaH2XbuYUe4l/+nGiwjf3e+rD16SiY4RmiZZ3mLoEZv0kvo4WRnZunGJa3qnK)
+    restapi: ENC(Z7dZQsxGpq+EAavJoBANNE5W+yKfufB+cw3AYsdAy0QGzqVLHvf0t6tO5qkUCGAj)
+    js: ENC(WxZ17tNwhUjuFkWF/AucErJ01PJpR08wWLs4WxyJvVukSPOe/ZUil328mZ5EMcz/)
+    admin: ENC(GZLsi9GxuXMoyfuBrhDuCJLbdDahX1eDaMqA+aeKlq8EZnGUHOsUqkxQaSl/Smti)
