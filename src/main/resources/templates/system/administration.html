@@ -38,7 +38,11 @@
                 <!-- DataTales Example -->
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">운영자 목록</h6>
+                        <h4 class="m-0 font-weight-bold text-primary">운영자 목록</h4>
+                        <div class="btn-group-sm" style="text-align:right;">
+                            <button class="btn btn-danger" onclick="deleteAdminUser()">삭제</button>
+                            <button class="btn btn-primary" onclick="location.href='/system/register'">등록</button>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -47,6 +51,7 @@
                                 <tr>
                                     <th>순서</th>
                                     <th>아이디</th>
+                                    <th>이메일</th>
                                     <th>권한</th>
                                     <th>활성화 여부</th>
                                 </tr>
@@ -55,6 +60,7 @@
                                 <tr th:each="adminUser, iterStat : ${adminUserList}">
                                     <td th:text="${iterStat.count}"></td> <!-- 순서 -->
                                     <td th:text="${adminUser.username}"></td> <!-- 아이디 -->
+                                    <td th:text="${adminUser.email}"></td> <!-- 이메일 -->
 <!--                                    <td>-->
 <!--                                        <a th:href="@{/adminUser/edit/{id}(id=${adminUser.id})}" class="text-primary" th:text="${adminUser.userName}"></a>-->
 <!--                                    </td>-->
@@ -128,5 +134,9 @@
         //     }
         // ]
     })
+
+    function insertAdminUser() {
+        
+    }
 </script>
 </html>

@@ -11,4 +11,6 @@ public interface SystemMapper {
     AdminUser getAdminUser(String username);
 
     List<AdminUser> getAdminUserList();
+
+    void upsertAdminInfo(AdminUser adminUser);
 }
