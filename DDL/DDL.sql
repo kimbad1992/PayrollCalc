@@ -124,5 +124,9 @@ CREATE TABLE COMMON_CODE (
                             CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                             UPDATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
+------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE PLAYGROUND_DATA (
+                                 key VARCHAR(255),
+                                 data JSONB
+);
 
