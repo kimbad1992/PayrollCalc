@@ -58,9 +58,6 @@ const ComUtils = {
             const defaultOptions = {
                 method: 'POST',
                 body: data,
-                // headers: {
-                //     'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-                // }
             };
 
             // defaultOptions과 전달받은 options을 병합

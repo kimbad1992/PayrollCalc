@@ -70,6 +70,9 @@ public class SecurityConfig {
                         .userDetailsService(adminLoginDetailService)
                         .rememberMeParameter("remember-me")
                 );
+        } else if (loginMode.equals(Constant.LOGIN_MODE_JWT)) {
+            // Json Web Token 확인용 Filter
+            // http.addFilterBefore();
         }
 
         return http.build();

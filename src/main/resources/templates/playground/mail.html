@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <th:block th:replace="~{/fragments/head :: head}"></th:block>
+
+    <title>Main</title>
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <div id="sidebar" th:replace="~{/fragments/sidebar :: sidebar}"></div>
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <div id="topbar" th:replace="~{/fragments/topbar :: topbar}"></div>
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">사원 등록</h1>
+                        <p class="mb-4">주의사항을 참고해주세요.</p>
+                    </div>
+
+                    <!-- Content Row -->
+                    <div class="row">
+
+                        <!-- Content Column -->
+                        <div class="col-lg-6 mb-4">
+
+                            <!-- Project Card Example -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Projects</h6>
+                                </div>
+                                <div class="card-body">
+                                    <textarea id="mailContent">
+
+                                    </textarea>
+                                    <button type="button" id="blahblah">발송</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer th:replace="~{/fragments/footer :: footer}">
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+</body>
+<!-- Script Fragments -->
+<th:block th:replace="~{/fragments/config :: config}" ></th:block>
+<script>
+    document.getElementById('blahblah').addEventListener("click", () => {
+        let content = document.getElementById('mailContent').value;
+        let jsonData = JSON.stringify({ mailContent : content});
+        console.log(content)
+        ComUtils.callFetch("/playground/sendMail.do", jsonData, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(data => {
+                console.log("성공", data);
+            })
+            .catch(error => {
+                console.log("에러", error);
+            })
+    });
+</script>
+</html>
