@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <th:block th:replace="~{/fragments/head :: head}"></th:block>
+
+    <title>운영자 등록</title>
+
+</head>
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <div id="sidebar" th:replace="~{/fragments/sidebar :: sidebar}"></div>
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <div id="topbar" th:replace="~{/fragments/topbar :: topbar}"></div>
+
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <h1 class="h3 mb-2 text-gray-800">운영자 등록</h1>
+                <!-- Project Card Example -->
+                <div class="card shadow mb-4">
+                    <form th:action="@{/system/register}" method="post">
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary">운영자 정보</h6>
+                        </div>
+                        <!-- 사원 정보 입력 Form -->
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="email">이메일<sup class="text-danger">*</sup></label>
+                                <input type="text" class="form-control" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="username">이름<sup class="text-danger">*</sup></label>
+                                <input type="text" class="form-control" id="username" name="username" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">비밀번호<sup class="text-danger">*</sup></label>
+                                <button type="button" class="btn-primary btn btn-sm bg-gray-400" onclick="generatePassword()">임시 비밀번호 생성</button>
+                                <input type="text" class="form-control" id="password" name="password" placeholder="임시 비밀번호 생성 버튼을 클릭해주세요" required readonly>
+                            </div>
+                            <button type="button" class="btn btn-primary" onclick="adminUserRegister()" required>등록</button>
+                        </div>
+                        <span></span>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer th:replace="~{/fragments/footer :: footer}">
+        </footer>
+        <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+</body>
+<!-- Script Fragments -->
+<th:block th:replace="~{fragments/config :: config}" ></th:block>
+<script>
+    function generatePassword() {
+        ComUtils.callFetch('/system/getRandomString')
+            .then(data => {
+                var randomString = data.randomKey;
+                document.getElementById('password').value = randomString;
+            })
+            .catch(error => {console.error('Error:', error)});
+    }
+
+    function adminUserRegister() {
+        const form = document.querySelector('form');
+        const formData = new FormData(form);
+
+        ComUtils.callFetch('/system/adminUserRegister.do', formData)
+            .then(result => {
+                if (typeof result === 'number') {
+                    // HTTP 상태 코드를 받은 경우 (실패)
+                    console.log("fail",result);
+                    alert('운영자 등록에 실패했습니다.');
+                } else {
+                    // JSON 결과를 받은 경우 (성공)
+                    console.log("success",result)
+                    if(confirm('운영자 등록에 성공했습니다. 목록으로 이동하시겠습니까?')) {
+                        location.href="/system/administration";
+                    }
+                }
+            })
+            .catch(error => {
+                // Validation 항목 처리
+                console.log('error :',error)
+
+                const errors = error.errors;
+
+                errors.forEach(error => {
+                    const inputElements = document.querySelectorAll(`[id*="${error.field}"]`);
+                    inputElements.forEach(em => {
+                        em.classList.add('is-invalid');
+
+                        const parentFormGroup = em.closest('.form-group');
+                        if (parentFormGroup) {
+                            // data-error-added 속성이 'true'로 설정되어 있는지 확인
+                            if (parentFormGroup.dataset.errorAdded !== 'true') {
+                                const labelElement = parentFormGroup.querySelector('label');
+                                if (labelElement) {
+                                    const errorTextSpan = document.createElement('span');
+                                    errorTextSpan.className = 'error-text text-danger';
+                                    errorTextSpan.textContent = error.defaultMessage;
+                                    errorTextSpan.style.fontSize = 'smaller';
+
+                                    labelElement.appendChild(errorTextSpan);
+
+                                    // 이 form-group에 에러 메시지가 추가되었음을 표시
+                                    parentFormGroup.dataset.errorAdded = 'true';
+                                }
+                            }
+                        }
+                    });
+                });
+                alert('입력된 정보가 잘못되었습니다.');
+            });
+    }
+    // function adminRegister() {
+    //     const form = document.querySelector('form');
+    //     const formData = new FormData(form);
+    //
+    //     ComUtils.callFetch('/system/adminUserRegister.do', formData)
+    //         .then(result => {
+    //             if (typeof result === 'number') {
+    //                 // HTTP 상태 코드를 받은 경우 (실패)
+    //                 console.log("fail",result);
+    //                 alert('운영자 등록에 실패했습니다.');
+    //             } else {
+    //                 // JSON 결과를 받은 경우 (성공)
+    //                 console.log("success",result)
+    //                 if(confirm('운영자 등록에 성공했습니다. 목록으로 이동하시겠습니까?')) {
+    //                     location.href="/system/administration";
+    //                 }
+    //             }
+    //         })
+    //         .catch(error => {
+    //             // Validation 항목 처리
+    //             console.log('error :',error)
+    //
+    //             const errors = error.errors;
+    //
+    //             errors.forEach(error => {
+    //                 const inputElements = document.querySelectorAll(`[id*="${error.field}"]`);
+    //                 inputElements.forEach(em => {
+    //                     em.classList.add('is-invalid');
+    //
+    //                     const parentFormGroup = em.closest('.form-group');
+    //                     if (parentFormGroup) {
+    //                         // data-error-added 속성이 'true'로 설정되어 있는지 확인
+    //                         if (parentFormGroup.dataset.errorAdded !== 'true') {
+    //                             const labelElement = parentFormGroup.querySelector('label');
+    //                             if (labelElement) {
+    //                                 const errorTextSpan = document.createElement('span');
+    //                                 errorTextSpan.className = 'error-text text-danger';
+    //                                 errorTextSpan.textContent = error.defaultMessage;
+    //                                 errorTextSpan.style.fontSize = 'smaller';
+    //
+    //                                 labelElement.appendChild(errorTextSpan);
+    //
+    //                                 // 이 form-group에 에러 메시지가 추가되었음을 표시
+    //                                 parentFormGroup.dataset.errorAdded = 'true';
+    //                             }
+    //                         }
+    //                     }
+    //                 });
+    //             });
+    //             alert('입력된 정보가 잘못되었습니다.');
+    //         });
+    // }
+    //
+
+</script>
+</html>

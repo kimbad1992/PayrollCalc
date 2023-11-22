@@ -2,16 +2,18 @@ package com.leepay.payrollcalc.service;
 
 import com.leepay.payrollcalc.dto.AdminUser;
 import com.leepay.payrollcalc.dto.Menu;
-import com.leepay.payrollcalc.mapper.MainMapper;
 import com.leepay.payrollcalc.mapper.SystemMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Service
 public class SystemService {
 
@@ -43,5 +45,12 @@ public class SystemService {
 
     public List<AdminUser> getAdminUserList() {
         return systemMapper.getAdminUserList();
+    }
+
+    @Transactional
+    public void adminUserRegister(AdminUser adminUser) {
+        systemMapper.upsertAdminInfo(adminUser);
+        log.debug("INSERT ADMIN USER : {}",adminUser);
+
     }
 }

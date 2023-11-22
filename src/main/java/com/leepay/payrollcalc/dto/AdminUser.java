@@ -1,7 +1,6 @@
 package com.leepay.payrollcalc.dto;
 
 import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -18,4 +17,10 @@ public class AdminUser implements Serializable{
     private String password;
     private Boolean enabled;
     private List<String> roles;
+    private String email;
+    private String oauth_provider;
+    private String oauth_provider_id;
+    private String oauth_profile_picture;
+    private Boolean two_factor_enabled;
+    private String two_factor_secret;
 }
