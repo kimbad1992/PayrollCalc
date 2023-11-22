@@ -125,7 +125,8 @@ CREATE TABLE COMMON_CODE (
                             UPDATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 ------------------------------------------------------------------------------------------------------------------------
-INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (8, '', '/system/administration', 2, '운영자 관리', 1, 6, 2, null);
-
-
+CREATE TABLE PLAYGROUND_DATA (
+                                 key VARCHAR(255),
+                                 data JSONB
+);
 
