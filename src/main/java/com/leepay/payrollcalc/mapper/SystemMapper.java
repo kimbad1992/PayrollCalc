@@ -13,4 +13,6 @@ public interface SystemMapper {
     List<AdminUser> getAdminUserList();
 
     void upsertAdminInfo(AdminUser adminUser);
+
+    void upsertAdminRoleInfo(AdminUser adminUser);
 }

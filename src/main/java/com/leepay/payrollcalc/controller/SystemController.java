@@ -73,6 +73,7 @@ public class SystemController {
 //        return "/system/register";
     }
 
+    /* 관리자 등록 시 임시 비밀번호 생성 */
     @RequestMapping("/getRandomString")
     @ResponseBody
     public Map<String, Object> getRandomString() {
@@ -80,5 +81,11 @@ public class SystemController {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("randomKey", randomKey);
         return map;
+    }
+
+    @RequestMapping("/edit/{id}")
+    public String adminEdit(@PathVariable Integer id, Model model) {
+        model.addAttribute("adminUser", systemService.getAdminUserList());
+        return null;
     }
 }

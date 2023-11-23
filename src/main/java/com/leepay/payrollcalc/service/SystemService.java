@@ -5,6 +5,7 @@ import com.leepay.payrollcalc.dto.Menu;
 import com.leepay.payrollcalc.mapper.SystemMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +20,6 @@ public class SystemService {
 
     @Autowired
     private SystemMapper systemMapper;
-
 
     public List<Menu> getAllMenu() {
         List<Menu> menus = systemMapper.getAllMenu();
@@ -49,7 +49,13 @@ public class SystemService {
 
     @Transactional
     public void adminUserRegister(AdminUser adminUser) {
+        String rawPassword = adminUser.getPassword();
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String encodePassword = encoder.encode(rawPassword);
+        adminUser.setPassword(encodePassword);
+
         systemMapper.upsertAdminInfo(adminUser);
+        systemMapper.upsertAdminRoleInfo(adminUser);
         log.debug("INSERT ADMIN USER : {}",adminUser);
 
     }
