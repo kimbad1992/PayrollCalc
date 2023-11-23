@@ -38,15 +38,9 @@ public class PlaygroundController {
 
     @PostMapping("/sendMail.do")
     @ResponseBody
-    public String doSend(@RequestBody Map<String, Object> body) {
-        Mail mail = Mail.builder()
-                .to("zlwmqhqk@naver.com")
-                .subject("테스트 제목").build();
-
-        mailService.sendMail(mail, (String) body.get("mailContent"));
-
-        log.debug("성공?");
-        return "";
+    public String doSend(@RequestBody Mail mail) {
+        String succeed = mailService.sendMail(mail, mail.getMessage(), "/email/admin-register");
+        return succeed;
     }
 
     @RequestMapping("/getCctvData.do")

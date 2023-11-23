@@ -29,8 +29,7 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">사원 등록</h1>
-                        <p class="mb-4">주의사항을 참고해주세요.</p>
+                        <h1 class="h3 mb-0 text-gray-800">메일 발송 테스트</h1>
                     </div>
 
                     <!-- Content Row -->
@@ -39,16 +38,25 @@
                         <!-- Content Column -->
                         <div class="col-lg-6 mb-4">
 
-                            <!-- Project Card Example -->
+                            <!-- 메일 발송 카드 -->
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Projects</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">이메일 보내기</h6>
                                 </div>
                                 <div class="card-body">
-                                    <textarea id="mailContent">
-
-                                    </textarea>
-                                    <button type="button" id="blahblah">발송</button>
+                                    <div class="form-group">
+                                        <label for="mailSubject">제목</label>
+                                        <input type="text" class="form-control" id="mailSubject" placeholder="제목을 입력하시요">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="mailContent">내용</label>
+                                        <textarea class="form-control" id="mailContent" rows="3" placeholder="본문 내용을 여기에"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="mailTo">받는사람</label>
+                                        <input type="email" class="form-control" id="mailTo" placeholder="받는 사람의 주소를 입력하시요">
+                                    </div>
+                                    <button type="button" id="blahblah" class="btn btn-primary">보내기</button>
                                 </div>
                             </div>
                         </div>
@@ -80,7 +88,13 @@
 <script>
     document.getElementById('blahblah').addEventListener("click", () => {
         let content = document.getElementById('mailContent').value;
-        let jsonData = JSON.stringify({ mailContent : content});
+        let to = document.getElementById('mailTo').value;
+        let subject = document.getElementById('mailSubject').value;
+        let jsonData = JSON.stringify({
+            message : content,
+            to: to,
+            subject: subject
+        });
         console.log(content)
         ComUtils.callFetch("/playground/sendMail.do", jsonData, {
             headers: {

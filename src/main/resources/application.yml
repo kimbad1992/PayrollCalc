@@ -13,18 +13,6 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: zlwmqhqk@gmail.com
-    password:
-    properties:
-      mail:
-        smtp:
-          auth: true
-          timeout: 5000
-          starttls:
-            enabled: true
 server:
   port: 8020
   tomcat:
@@ -67,3 +55,6 @@ system:
     restapi: ENC(Z7dZQsxGpq+EAavJoBANNE5W+yKfufB+cw3AYsdAy0QGzqVLHvf0t6tO5qkUCGAj)
     js: ENC(WxZ17tNwhUjuFkWF/AucErJ01PJpR08wWLs4WxyJvVukSPOe/ZUil328mZ5EMcz/)
     admin: ENC(GZLsi9GxuXMoyfuBrhDuCJLbdDahX1eDaMqA+aeKlq8EZnGUHOsUqkxQaSl/Smti)
+  mail:
+    mail-address: ENC(hN7afWLqVzP8a75Rg756w7kWVY8x6fGAfIyFSq3T504=)
+    mail-password: ENC(a4NqSqBz68g+4g6BLDq+vOVkueLSSHF25D+4qDGU8wQ=)
