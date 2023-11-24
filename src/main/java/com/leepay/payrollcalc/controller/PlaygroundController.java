@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.Map;
-
 @Controller
 @RequestMapping("/playground")
 @Slf4j
@@ -39,8 +37,7 @@ public class PlaygroundController {
     @PostMapping("/sendMail.do")
     @ResponseBody
     public String doSend(@RequestBody Mail mail) {
-        String succeed = mailService.sendMail(mail, mail.getMessage(), "/email/admin-register");
-        return succeed;
+        return "T";
     }
 
     @RequestMapping("/getCctvData.do")

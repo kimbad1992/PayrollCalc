@@ -11,9 +11,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
-import java.util.Properties;
-
-import static org.springframework.security.core.context.SecurityContextHolder.setContext;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -23,7 +21,7 @@ public class MailService {
     private final JavaMailSender javaMailSender;
     private final SpringTemplateEngine templateEngine;
 
-    public String sendMail(Mail mail, String content, String templeteLocation) {
+    public String sendMail(Mail mail, String templeteLocation, Map<String, Object> variables) {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
 
         try {
@@ -33,7 +31,8 @@ public class MailService {
 
             // Thymeleaf를 사용하여 HTML 콘텐츠 생성
             Context context = new Context();
-            context.setVariable("message", content);
+            context.setVariable("message", mail.getMessage());
+            context.setVariables(variables);
             String htmlContent = templateEngine.process(templeteLocation, context);
             mimeMessageHelper.setText(htmlContent, true); // HTML 콘텐츠 설정
             javaMailSender.send(mimeMessage);

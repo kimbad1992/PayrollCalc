@@ -1,7 +1,9 @@
 package com.leepay.payrollcalc.controller;
 
 import com.leepay.payrollcalc.dto.*;
+import com.leepay.payrollcalc.service.MailService;
 import com.leepay.payrollcalc.service.SystemService;
+import com.leepay.payrollcalc.util.CommonUtil;
 import com.leepay.payrollcalc.util.RandomUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -27,6 +29,9 @@ public class SystemController {
 
     @Autowired
     private RandomUtil randomUtil;
+
+    @Autowired
+    private MailService mailService;
 
     @RequestMapping("/commonCode")
     public String commonCodePage() {
@@ -68,7 +73,16 @@ public class SystemController {
         if(bindingResult.hasErrors()) {
             return new ErrorResponse(bindingResult).build();
         }
+
         systemService.adminUserRegister(adminUser);
+
+        Mail mail = Mail.builder()
+                        .to(adminUser.getEmail())
+                        .subject(EmailEnum.ADMIN_REGISTER.getSubject())
+                        .build();
+
+        mailService.sendMail(mail, EmailEnum.ADMIN_REGISTER.getTemplateLocation()
+                ,CommonUtil.convertDtoToMap(adminUser));
         return new ApiResponse<>().build();
 //        return "/system/register";
     }

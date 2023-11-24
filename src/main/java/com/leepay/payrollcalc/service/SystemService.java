@@ -56,7 +56,8 @@ public class SystemService {
 
         systemMapper.upsertAdminInfo(adminUser);
         systemMapper.upsertAdminRoleInfo(adminUser);
+        adminUser.setPassword(rawPassword);
         log.debug("INSERT ADMIN USER : {}",adminUser);
-
+        // 여기서 INSERT 성공/실패 여부 확인용 변수 Return
     }
 }
