@@ -102,4 +102,11 @@ public class SystemController {
         model.addAttribute("adminUser", systemService.getAdminUserList());
         return null;
     }
+
+    @RequestMapping("/profile")
+    public String goProfile(Model model) {
+        // AdminUser adminUser = systemService.getAdminUserList();
+        // model.addAttribute("adminUser", adminUser);
+        return "/system/profile";
+    }
 }
