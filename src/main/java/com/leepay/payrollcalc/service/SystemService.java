@@ -60,4 +60,8 @@ public class SystemService {
         log.debug("INSERT ADMIN USER : {}",adminUser);
         // 여기서 INSERT 성공/실패 여부 확인용 변수 Return
     }
+
+    public AdminUser getAdminUserById(Long id) {
+        return systemMapper.getAdminUserById(id);
+    }
 }

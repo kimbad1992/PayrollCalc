@@ -60,4 +60,8 @@ public class AdminDetails implements UserDetails {
     public boolean isEnabled() {
         return adminUser.getEnabled();
     }
+
+    public Long getId() {
+        return adminUser.getId();
+    }
 }

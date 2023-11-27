@@ -8,7 +8,8 @@ import java.util.List;
 public interface SystemMapper {
     List<Menu> getAllMenu();
 
-    AdminUser getAdminUser(String username);
+    AdminUser getAdminUserByUsername(String username);
+    AdminUser getAdminUserById(Long id);
 
     List<AdminUser> getAdminUserList();
 
