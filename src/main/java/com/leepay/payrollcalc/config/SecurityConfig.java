@@ -3,6 +3,7 @@ package com.leepay.payrollcalc.config;
 import com.leepay.payrollcalc.constant.Constant;
 import com.leepay.payrollcalc.handler.AuthenticationHandler;
 import com.leepay.payrollcalc.provider.AdminAuthenticatorProvider;
+import com.leepay.payrollcalc.provider.CsrfTokenProvider;
 import com.leepay.payrollcalc.service.AdminLoginDetailService;
 import com.leepay.payrollcalc.util.PropUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -25,6 +31,8 @@ public class SecurityConfig {
     AdminLoginDetailService adminLoginDetailService;
     @Autowired
     private AuthenticationHandler authenticationHandler;
+    @Autowired
+    private CsrfTokenProvider csrfTokenProvider;
 
     @Autowired
     public void configure (AuthenticationManagerBuilder auth) throws Exception {
@@ -37,7 +45,7 @@ public class SecurityConfig {
 
         /* 경로별 권한 설정 */
         http
-            .csrf(AbstractHttpConfigurer::disable)
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
                     .requestMatchers(new AntPathRequestMatcher("/css/**")
                             ,new AntPathRequestMatcher("/js/**")
@@ -47,11 +55,13 @@ public class SecurityConfig {
                     ).permitAll()
                     .anyRequest().authenticated()
             );
-        /* -------------- */
 
         /* 로그인 모드별 Http 설정 */
         if (loginMode.equals(Constant.LOGIN_MODE_SESSION)) {
             http
+                .csrf(csrf -> csrf
+                        .csrfTokenRepository(csrfTokenProvider)
+                        .ignoringRequestMatchers(new AntPathRequestMatcher("/logout"))) // 로그아웃 경로에 대해서는 무시
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login") // 로그인
                         .loginProcessingUrl("/login_request") // 로그인 처리할 경로
@@ -59,12 +69,12 @@ public class SecurityConfig {
                         .failureHandler(authenticationHandler)
                         .permitAll()
                 )
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login")
-                        .deleteCookies("JESSIONID")
-                )
-                .rememberMe(rememberMe -> rememberMe
+                    .logout(logout -> logout
+                            .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
+                            .logoutSuccessUrl("/login")
+                            .deleteCookies("JSESSIONID")
+                    )
+                    .rememberMe(rememberMe -> rememberMe
                         .key("payroll")
                         .tokenValiditySeconds(60 * 60 * 24 * 7)
                         .userDetailsService(adminLoginDetailService)
@@ -72,9 +82,22 @@ public class SecurityConfig {
                 );
         } else if (loginMode.equals(Constant.LOGIN_MODE_JWT)) {
             // Json Web Token 확인용 Filter
-            // http.addFilterBefore();
         }
-
         return http.build();
+    }
+
+    // CORS 설정 Bean
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("GET","POST", "PUT", "DELETE"));
+        configuration.setAllowedHeaders(Arrays.asList("X-Requested-With", "Content-Type", "Authorization", "X-XSRF-token"));
+        configuration.setAllowCredentials(false);
+        configuration.setMaxAge(3600L);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }

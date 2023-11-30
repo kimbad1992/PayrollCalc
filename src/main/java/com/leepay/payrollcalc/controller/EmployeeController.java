@@ -29,7 +29,7 @@ public class EmployeeController {
 
     /* 사원 조회 페이지 */
     @RequestMapping("/list")
-    public String employeeListPage(Model model, HttpServletRequest request) {
+    public String employeeListPage(Model model) {
         model.addAttribute("employeeList", employeeService.getEmployeeList());
         return "/employee/list";
     }
@@ -56,8 +56,6 @@ public class EmployeeController {
     @PostMapping("/employeeRegister.do")
     @ResponseBody
     public ResponseEntity<?> employeeRegister(@Valid @ModelAttribute Employee employee, BindingResult bindingResult) {
-        log.debug("사원 정보 : {}", employee);
-
         if (bindingResult.hasErrors()) {
             return new ErrorResponse(bindingResult).build();
         }

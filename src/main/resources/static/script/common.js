@@ -44,6 +44,9 @@ const ComUtils = {
         return new Promise(async (resolve, reject) => {
 
             console.log(data);
+            // CSRF Token
+            const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+            const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
 
             // fetch 메서드에서 사용할 공통 로딩 레이어
             const content = document.getElementById('content');
@@ -58,6 +61,9 @@ const ComUtils = {
             const defaultOptions = {
                 method: 'POST',
                 body: data,
+                headers: {
+                    [csrfHeader]: csrfToken
+                }
             };
 
             // defaultOptions과 전달받은 options을 병합

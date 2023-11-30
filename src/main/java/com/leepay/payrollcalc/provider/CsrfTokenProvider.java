@@ -1,0 +1,45 @@
+package com.leepay.payrollcalc.provider;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.security.web.csrf.CsrfToken;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.DefaultCsrfToken;
+import org.springframework.stereotype.Component;
+
+import java.util.UUID;
+
+@Component
+public class CsrfTokenProvider implements CsrfTokenRepository {
+
+    @Override
+    public CsrfToken generateToken(HttpServletRequest request) {
+        // 토큰 생성 로직
+        String tokenValue = UUID.randomUUID().toString();
+        return new DefaultCsrfToken("X-CSRF-TOKEN", "_csrf", tokenValue);
+    }
+
+    @Override
+    public void saveToken(CsrfToken token, HttpServletRequest request, HttpServletResponse response) {
+        // 토큰 저장 로직
+        // 예를 들어 세션에 저장할 수 있습니다:
+        HttpSession session = request.getSession();
+        if (token != null) {
+            session.setAttribute("X-CSRF-TOKEN", token);
+        } else {
+            session.removeAttribute("X-CSRF-TOKEN");
+        }
+    }
+
+    @Override
+    public CsrfToken loadToken(HttpServletRequest request) {
+        // 토큰 로드 로직
+        // 예를 들어 세션에서 토큰을 읽어옵니다:
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return null;
+        }
+        return (CsrfToken) session.getAttribute("X-CSRF-TOKEN");
+    }
+}
