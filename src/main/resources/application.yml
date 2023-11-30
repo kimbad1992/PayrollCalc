@@ -39,7 +39,7 @@ logging:
       springframework:
         boot:
           autoconfigure: ERROR
-        security: ERROR
+        security: DEBUG
     jdbc:
       audit: OFF
       resultset: OFF

@@ -67,7 +67,14 @@ const ComUtils = {
             };
 
             // defaultOptions과 전달받은 options을 병합
-            const fetchOptions = { ...defaultOptions, ...options };
+            const fetchOptions = {
+                ...defaultOptions,
+                ...options,
+                headers: {
+                    ...defaultOptions.headers,
+                    ...options.headers
+                }
+            };
 
             try {
                 const response = await fetch(url, fetchOptions);

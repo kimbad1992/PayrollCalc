@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.DefaultCsrfToken;
+import org.springframework.security.web.csrf.DeferredCsrfToken;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -41,5 +42,10 @@ public class CsrfTokenProvider implements CsrfTokenRepository {
             return null;
         }
         return (CsrfToken) session.getAttribute("X-CSRF-TOKEN");
+    }
+
+    @Override
+    public DeferredCsrfToken loadDeferredToken(HttpServletRequest request, HttpServletResponse response) {
+        return CsrfTokenRepository.super.loadDeferredToken(request, response);
     }
 }

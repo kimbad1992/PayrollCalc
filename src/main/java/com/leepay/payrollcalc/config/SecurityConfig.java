@@ -7,6 +7,7 @@ import com.leepay.payrollcalc.provider.CsrfTokenProvider;
 import com.leepay.payrollcalc.service.AdminLoginDetailService;
 import com.leepay.payrollcalc.util.PropUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -47,12 +48,10 @@ public class SecurityConfig {
         http
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
-                    .requestMatchers(new AntPathRequestMatcher("/css/**")
-                            ,new AntPathRequestMatcher("/js/**")
-                            ,new AntPathRequestMatcher("/images/**")
-                            ,new AntPathRequestMatcher("/favicon/**")
-                            ,new AntPathRequestMatcher("/bootstrap/**/**")
-                    ).permitAll()
+                    .requestMatchers(new AntPathRequestMatcher("/bootstrap/**/**"), new AntPathRequestMatcher("/favicon/**"))
+                    .permitAll()
+                    .requestMatchers(PathRequest.toStaticResources().atCommonLocations()) // 정적 자원에 대해 허용, (/css/**, /js/**, /images/**, /webjars/**, /**/favicon.ico)
+                    .permitAll()
                     .anyRequest().authenticated()
             );
 
@@ -92,7 +91,7 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("GET","POST", "PUT", "DELETE"));
-        configuration.setAllowedHeaders(Arrays.asList("X-Requested-With", "Content-Type", "Authorization", "X-XSRF-token"));
+        configuration.setAllowedHeaders(Arrays.asList("X-Requested-With", "Content-Type", "Authorization", "X-CSRF-TOKEN"));
         configuration.setAllowCredentials(false);
         configuration.setMaxAge(3600L);
 

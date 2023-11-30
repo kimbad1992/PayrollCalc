@@ -37,6 +37,7 @@ public class PlaygroundController {
     @PostMapping("/sendMail.do")
     @ResponseBody
     public String doSend(@RequestBody Mail mail) {
+        mailService.sendMail(mail);
         return "T";
     }
 
