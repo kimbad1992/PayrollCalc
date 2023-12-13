@@ -23,6 +23,8 @@ server:
       charset: UTF-8
       enabled: true
       force: true
+    session:
+      timeout: 1800
 mybatis:
   configuration:
     jdbc-type-for-null: null

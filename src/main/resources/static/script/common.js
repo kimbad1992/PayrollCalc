@@ -1,42 +1,70 @@
 $(() => {
-        // 현재 URL 가져오기
-        var currentUrl = window.location.pathname;
+    // 현재 URL 가져오기
+    var currentUrl = window.location.pathname;
 
-        // 모든 서브메뉴 아이템을 순회
-        $('.collapse-item').each(function() {
-            var $this = $(this);
+    // 모든 서브메뉴 아이템을 순회
+    $('.collapse-item').each(function() {
+        var $this = $(this);
 
-            // 서브메뉴의 URL과 현재 URL이 일치하는지 확인
-            var subMenuUrl = $this.attr('href');
-            if (subMenuUrl === currentUrl) {
-                // 부모 collapse의 ID 가져오기
-                var parentId = $this.data('parent-id');
+        // 서브메뉴의 URL과 현재 URL이 일치하는지 확인
+        var subMenuUrl = $this.attr('href');
+        if (subMenuUrl === currentUrl) {
+            // 부모 collapse의 ID 가져오기
+            var parentId = $this.data('parent-id');
 
-                // 부모 collapse 활성화
-                $('#' + parentId).addClass('show');
+            // 부모 collapse 활성화
+            $('#' + parentId).addClass('show');
 
-                // 활성화 된 URL이 있는 메뉴 콜랩스 펼치기 및 강조
-                $('a[data-target="#' + parentId + '"]').attr('aria-expanded', 'true');
-                $this.addClass('font-weight-bold');
+            // 활성화 된 URL이 있는 메뉴 콜랩스 펼치기 및 강조
+            $('a[data-target="#' + parentId + '"]').attr('aria-expanded', 'true');
+            $this.addClass('font-weight-bold');
 
-                // 최상위 <li> 요소에 active 클래스 추가
-                $this.closest('.nav-item').addClass('active');
+            // 최상위 <li> 요소에 active 클래스 추가
+            $this.closest('.nav-item').addClass('active');
+        }
+    });
+
+    // 에러 메시지 삭제용
+    $('input').on('input', () => {
+        // 테두리 제거
+        if ($(this).hasClass('is-invalid')) {
+            $(this).removeClass('is-invalid');
+        }
+
+        let parentForm = $(this).closest('.form-group');
+        if (parentForm.length > 0) {
+            parentForm[0].dataset.errorAdded = 'false'; // 에러 메시지 추가 상태를 False로 변경
+            parentForm.find('span.error-text').remove(); // 에러 메시지 span 요소 삭제
+        }
+    });
+
+    // 세션 잔여시간 표기
+    function formatTime(milliseconds) {
+        let totalSeconds = Math.floor(milliseconds / 1000);
+        let minutes = Math.floor(totalSeconds / 60);
+        let seconds = totalSeconds % 60;
+
+        // 분과 초를 두 자리수로 포맷팅
+        minutes = String(minutes).padStart(2, '0');
+        seconds = String(seconds).padStart(2, '0');
+
+        return minutes + ':' + seconds;
+    }
+
+    function startTimer() {
+        const timerInterval = setInterval(() => {
+            remainingTime -= 1000; // 1초씩 감소
+            if (remainingTime <= 0) {
+                clearInterval(timerInterval); // 타이머 종료
+                document.getElementById('sessionTime').textContent = '세션 만료';
+                // 추가적인 로직 (예: 로그아웃 페이지로 리다이렉트)
+            } else {
+                document.getElementById('sessionTime').textContent = formatTime(remainingTime);
             }
-        });
+        }, 1000);
+    }
 
-        // 에러 메시지 삭제용
-        $('input').on('input', () => {
-            // 테두리 제거
-            if ($(this).hasClass('is-invalid')) {
-                $(this).removeClass('is-invalid');
-            }
-
-            let parentForm = $(this).closest('.form-group');
-            if (parentForm.length > 0) {
-                parentForm[0].dataset.errorAdded = 'false'; // 에러 메시지 추가 상태를 False로 변경
-                parentForm.find('span.error-text').remove(); // 에러 메시지 span 요소 삭제
-            }
-        });
+    startTimer();
 });
 
 const ComUtils = {

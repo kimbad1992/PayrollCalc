@@ -4,6 +4,7 @@ import com.leepay.payrollcalc.dto.AdminDetails;
 import com.leepay.payrollcalc.dto.AdminUser;
 import com.leepay.payrollcalc.mapper.MainMapper;
 import com.leepay.payrollcalc.mapper.SystemMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;
 
 @Service
+@Slf4j
 public class AdminLoginDetailService implements UserDetailsService {
 
     @Autowired

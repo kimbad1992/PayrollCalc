@@ -8,13 +8,18 @@ import com.leepay.payrollcalc.service.AdminLoginDetailService;
 import com.leepay.payrollcalc.util.PropUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -68,16 +73,25 @@ public class SecurityConfig {
                         .failureHandler(authenticationHandler)
                         .permitAll()
                 )
-                    .logout(logout -> logout
-                            .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
-                            .logoutSuccessUrl("/login")
-                            .deleteCookies("JSESSIONID")
-                    )
-                    .rememberMe(rememberMe -> rememberMe
-                        .key("payroll")
-                        .tokenValiditySeconds(60 * 60 * 24 * 7)
-                        .userDetailsService(adminLoginDetailService)
-                        .rememberMeParameter("remember-me")
+                .logout(logout -> logout
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
+                        .logoutSuccessUrl("/login")
+                        .deleteCookies("JSESSIONID")
+                )
+                .rememberMe(rememberMe -> rememberMe
+                    .key("payroll")
+                    .tokenValiditySeconds(60 * 60 * 24 * 7)
+                    .userDetailsService(adminLoginDetailService)
+                    .rememberMeParameter("remember-me")
+                )
+                .sessionManagement(sessionManagement -> sessionManagement
+                    .sessionFixation()
+                        .changeSessionId()
+                    .maximumSessions(1)
+//                    .expiredSessionStrategy()
+                    .maxSessionsPreventsLogin(false)
+                    .sessionRegistry(sessionRegistry())
+                    .expiredUrl("/login?expired")
                 );
         } else if (loginMode.equals(Constant.LOGIN_MODE_JWT)) {
             // Json Web Token 확인용 Filter
@@ -98,5 +112,15 @@ public class SecurityConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
+    }
+
+    @Bean
+    public SessionRegistry sessionRegistry() {
+        return new SessionRegistryImpl();
+    }
+
+    @Bean
+    public ServletListenerRegistrationBean<HttpSessionEventPublisher> httpSessionEventPublisher() {
+        return new ServletListenerRegistrationBean<>(new HttpSessionEventPublisher());
     }
 }

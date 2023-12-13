@@ -39,4 +39,11 @@
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" th:content="@{/ms-icon-144x144.png}">
     <meta name="theme-color" content="#ffffff">
+
+    <!--전역 사용용 변수-->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let remainingTime = /*[[${sessionTime}]]*/ '0';
+        /*]]>*/
+    </script>
 </th:block>

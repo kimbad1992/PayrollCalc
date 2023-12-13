@@ -64,4 +64,15 @@ public class AdminDetails implements UserDetails {
     public Long getId() {
         return adminUser.getId();
     }
+
+    @Override
+    public int hashCode() {
+        return this.getUsername().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof AdminDetails) return this.getUsername().equals(((AdminDetails) obj).getUsername());
+        return false;
+    }
 }
