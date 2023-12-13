@@ -95,13 +95,18 @@ CREATE TABLE ADMIN_MENU (
                             level INT NOT NULL,
                             icon_class VARCHAR(100)
 );
-INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (1, '사원 관리', '/employee', 1, '사원', 1, null, 1, 'fa fa-address-book');
 INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (2, '', '/employee/list', 1, '사원 조회', 1, 1, 2, null);
 INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (3, '', '/employee/register', 1, '사원 등록', 1, 1, 2, null);
 INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (4, '', '/employee/excel', 1, '사원 엑셀 일괄등록', 1, 1, 2, null);
+INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (1, '사원 관리', '/employee', 1, '사원', 1, null, 1, 'fa fa-address-book');
 INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (5, '급여 관리', '/payroll', 2, '급여', 1, null, 1, 'fa fa-credit-card');
-INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (6, '시스템 설정', '/system', 2, '시스템', 1, null, 1, 'fa fa-cog');
-INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (7, '', '/system/commonCode', 2, '공통코드 관리', 1, 6, 2, null);
+INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (6, '시스템 설정', '/system', 3, '시스템', 1, null, 1, 'fa fa-cog');
+INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (7, '', '/system/commonCode', 3, '공통코드 관리', 1, 6, 2, null);
+INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (8, '', '/system/administration', 3, '운영자 관리', 1, 6, 2, null);
+INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (10, '놀이터', '/playground', 4, '놀이터', 1, null, 1, 'fa fa-rocket');
+INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (11, ' ', '/playground/map', 4, '카카오맵 API', 1, 10, 2, null);
+INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (12, ' ', '/playground/mail', 4, '메일 발송', 1, 10, 2, null);
+INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (13, ' ', '/playground/chat', 5, '실시간 채팅', 1, 10, 2, null);
 ------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE GROUP_CODE (
                             GROUP_CODE_SEQ SERIAL PRIMARY KEY,
