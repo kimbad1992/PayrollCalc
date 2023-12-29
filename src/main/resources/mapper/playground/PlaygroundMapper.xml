@@ -3,7 +3,7 @@
 <mapper namespace="com.leepay.payrollcalc.mapper.PlaygroundMapper">
 
 
-    <select id="getCctvData" resultType="java.lang.String">
-        SELECT A.DATA FROM PLAYGROUND_DATA A WHERE KEY = 'cctvData'
+    <select id="getPlaygroundData" resultType="java.lang.String">
+        SELECT A.DATA FROM PLAYGROUND_DATA A WHERE KEY = #{key}
     </select>
 </mapper>

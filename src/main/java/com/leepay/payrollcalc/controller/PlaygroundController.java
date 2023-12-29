@@ -1,5 +1,6 @@
 package com.leepay.payrollcalc.controller;
 
+import com.leepay.payrollcalc.constant.Constant;
 import com.leepay.payrollcalc.dto.Mail;
 import com.leepay.payrollcalc.dto.StompMessage;
 import com.leepay.payrollcalc.service.MailService;
@@ -45,6 +46,13 @@ public class PlaygroundController {
         return "/playground/chatRoom";
     }
 
+    @RequestMapping("/lostark")
+    public String lostark(Model model) {
+        String appKey = "Bearer "+PropUtil.getProperty("system.lostark-api-key");
+        model.addAttribute("appKey", appKey);
+        return "/playground/lostark";
+    }
+
     @PostMapping("/sendMail.do")
     @ResponseBody
     public String doSend(@RequestBody Mail mail) {
@@ -55,7 +63,13 @@ public class PlaygroundController {
     @RequestMapping("/getCctvData.do")
     @ResponseBody
     public String getCctvData() {
-        return playgroundService.getCctvData();
+        return playgroundService.getPlaygroundData(Constant.PLAYGROUND_CCTV);
+    }
+
+    @RequestMapping("/getRaidData.do")
+    @ResponseBody
+    public String getRaidData() {
+        return playgroundService.getPlaygroundData(Constant.PLAYGROUND_RAID);
     }
 
     @MessageMapping("/sendMessage")

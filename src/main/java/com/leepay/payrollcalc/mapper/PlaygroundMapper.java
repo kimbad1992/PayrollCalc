@@ -4,5 +4,5 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface PlaygroundMapper {
-    String getCctvData();
+    String getPlaygroundData(String key);
 }

@@ -13,7 +13,7 @@ public class PlaygroundService {
     @Autowired
     private PlaygroundMapper playgroundMapper;
 
-    public String getCctvData() {
-        return playgroundMapper.getCctvData();
+    public String getPlaygroundData(String key) {
+        return playgroundMapper.getPlaygroundData(key);
     }
 }

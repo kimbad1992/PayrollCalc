@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <th:block th:replace="~{/fragments/head :: head}"></th:block>
+
+    <title>Main</title>
+
+</head>
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <div id="sidebar" th:replace="~{/fragments/sidebar :: sidebar}"></div>
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <div id="topbar" th:replace="~{/fragments/topbar :: topbar}"></div>
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <h1 class="h3 mb-2 text-gray-800">로스트아크 API</h1>
+                <p class="mb-4">
+                    원정대 내 캐릭터 명으로 해당 원정대의 <span class="text-primary">상위 6개</span> 캐릭터를 조회합니다.
+                    상위 6개 캐릭터의 정렬 결과에 따라 검색한 캐릭터가 포함되지 않을 수 있습니다.
+                </p>
+
+                <!-- DataTales Example -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">원정대 캐릭터 검색</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" id="characterName" class="form-control" placeholder="원정대 캐릭터명 검색...">
+                            </div>
+                            <div class="col-auto">
+                                <button class="btn btn-primary" onclick="searchCharacter()">검색</button>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <table class="table" id="searchResultsTable">
+                                <thead>
+                                <tr>
+                                    <th>캐릭터명</th>
+                                    <th>클래스명</th>
+                                    <th>서버명</th>
+                                    <th>레벨</th>
+                                    <th>평균 아이템 레벨</th>
+                                    <th>최대 아이템 레벨</th>
+                                    <th>주간 컨텐츠</th>
+                                    <th>골드 수급량</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <!-- 검색 결과가 여기에 동적으로 추가됩니다 -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer th:replace="~{/fragments/footer :: footer}">
+        </footer>
+        <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+</body>
+<!-- Script Fragments -->
+<th:block th:replace="~{/fragments/config :: config}" ></th:block>
+<script th:inline="javascript">
+    const requestUrl = {
+        characters: "https://developer-lostark.game.onstove.com/characters/{}/siblings"
+    }
+
+    let raidData = [];
+
+    function searchCharacter() {
+        let characterName = $('#characterName').val();
+        let url = requestUrl.characters.replace("{}",characterName);
+
+        ComUtils.callFetch(url, null, {
+            method: "GET",
+            headers: {
+                authorization: /*[[${appKey}]]*/'',
+            }
+        }).then(data => {
+            if (data == null) {
+                var resultsContainer = $('#searchResultsTable tbody');
+                resultsContainer.empty(); // 기존의 검색 결과를 지웁니다.
+
+                // 검색결과 없음...
+                var noResultsHtml = `
+                    <tr>
+                        <td colspan="8" class="text-center">검색 결과 없음</td>
+                    </tr>
+                `;
+                resultsContainer.append(noResultsHtml); // 검색 결과가 없음을 표시합니다.
+            }
+            // ItemMaxLevel을 기준으로 내림차순 정렬
+            data.sort((a, b) => {
+                // 콤마를 제거하고 실수로 변환합니다.
+                let aValue = parseFloat(a.ItemMaxLevel.replace(/,/g, ''));
+                let bValue = parseFloat(b.ItemMaxLevel.replace(/,/g, ''));
+                return bValue - aValue;
+            });
+
+            // 상위 6개 항목만 가져옵니다.
+            var topCharacters = data.slice(0, 6);
+
+            var resultsContainer = $('#searchResultsTable tbody');
+            resultsContainer.empty(); // 기존의 검색 결과를 지웁니다.
+
+            topCharacters.forEach((character) => {
+                var weekContents = weekContentsRender(character);
+                console.log(weekContents)
+                var resultHtml = `
+                    <tr>
+                        <td>${character.CharacterName}</td>
+                        <td>${character.CharacterClassName}</td>
+                        <td>${character.ServerName}</td>
+                        <td>${character.CharacterLevel}</td>
+                        <td>${character.ItemAvgLevel}</td>
+                        <td>${character.ItemMaxLevel}</td>
+                        <td>${weekContents}</td>
+                        <td></td>
+                    </tr>
+                `;
+                resultsContainer.append(resultHtml);
+            })
+        })
+    }
+
+    function getRaidData() {
+        ComUtils.callFetch("/playground/getRaidData.do")
+            .then(data => {
+                raidData = data;
+            })
+    }
+
+    function weekContentsRender(character) {
+        let checkboxes = "";
+        let characterMaxLevel = parseFloat(character.ItemMaxLevel.replace(/,/g, ''));
+        for (let dungeonName in raidData) {
+            let dungeon = raidData[dungeonName];
+            for (let difficulty in dungeon.difficulty) {
+                for (let gate in dungeon.difficulty[difficulty].gate) {
+                    let gateInfo = dungeon.difficulty[difficulty].gate[gate];
+                    let name = dungeon.dungeonName;
+                    if (characterMaxLevel >= gateInfo.minLevel) {
+                        checkboxes += `<input type="checkbox" name="${name}_${difficulty}_${gate}" /> ${name} ${difficulty} ${gate}관문<br>`;
+                    }
+                }
+            }
+        }
+        return checkboxes;
+    }
+
+    getRaidData();
+</script>
+</html>

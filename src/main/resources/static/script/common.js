@@ -70,11 +70,13 @@ $(() => {
 const ComUtils = {
     callFetch : async (url, data, options) => {
         return new Promise(async (resolve, reject) => {
-
-            console.log(data);
             // CSRF Token
             const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
             const csrfHeader = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+            // options가 null이면 빈 객체를 사용
+            if (options == null) {
+                options = {};
+            }
 
             // fetch 메서드에서 사용할 공통 로딩 레이어
             const content = document.getElementById('content');
@@ -100,7 +102,7 @@ const ComUtils = {
                 ...options,
                 headers: {
                     ...defaultOptions.headers,
-                    ...options.headers
+                    ...(options.headers || {}) // options.headers가 undefined 또는 null일 경우 빈 객체를 사용
                 }
             };
 
