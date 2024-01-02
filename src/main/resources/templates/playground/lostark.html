@@ -135,9 +135,8 @@
             var resultsContainer = $('#searchResultsTable tbody');
             resultsContainer.empty(); // 기존의 검색 결과를 지웁니다.
 
-            topCharacters.forEach((character) => {
+            topCharacters.forEach((character, index) => {
                 var weekContents = weekContentsRender(character);
-                console.log(weekContents)
                 var resultHtml = `
                     <tr>
                         <td>${character.CharacterName}</td>
@@ -146,7 +145,7 @@
                         <td>${character.CharacterLevel}</td>
                         <td>${character.ItemAvgLevel}</td>
                         <td>${character.ItemMaxLevel}</td>
-                        <td>${weekContents}</td>
+                        <td><div id='${index}'></td>
                         <td></td>
                     </tr>
                 `;
@@ -158,12 +157,13 @@
     function getRaidData() {
         ComUtils.callFetch("/playground/getRaidData.do")
             .then(data => {
-                raidData = data;
+                raidData = convertToTreeData(data);
             })
     }
 
     function weekContentsRender(character) {
         let checkboxes = "";
+        let weekContents = {};
         let characterMaxLevel = parseFloat(character.ItemMaxLevel.replace(/,/g, ''));
         for (let dungeonName in raidData) {
             let dungeon = raidData[dungeonName];
@@ -172,12 +172,36 @@
                     let gateInfo = dungeon.difficulty[difficulty].gate[gate];
                     let name = dungeon.dungeonName;
                     if (characterMaxLevel >= gateInfo.minLevel) {
-                        checkboxes += `<input type="checkbox" name="${name}_${difficulty}_${gate}" /> ${name} ${difficulty} ${gate}관문<br>`;
+                        checkboxes += `<input type="checkbox" name="${name}_${difficulty}_${gate}"/> ${name} ${difficulty} ${gate}관문<br>`;
+                        weekContents
                     }
                 }
             }
         }
         return checkboxes;
+    }
+
+    function convertToTreeData(dungeons) {
+        return dungeons.map(dungeon => {
+            let difficultyNodes = Object.keys(dungeon.difficulty).map(difficulty => {
+                // gate 객체의 존재 여부를 확인
+                let gates = dungeon.difficulty[difficulty].gate || {};
+                let gateNodes = Object.keys(gates).map(gate => {
+                    return {
+                        text: `${gate}관문 (최소레벨: ${gates[gate].minLevel}, 골드: ${gates[gate].gold})`
+                    };
+                });
+                return {
+                    text: `${difficulty} 난이도`,
+                    state: 'closed',
+                    children: gateNodes
+                };
+            });
+            return {
+                text: dungeon.dungeonName,
+                children: difficultyNodes
+            };
+        });
     }
 
     getRaidData();
