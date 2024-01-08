@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <th:block th:replace="~{/fragments/head :: head}"></th:block>
+
+    <title>메뉴 관리</title>
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <div id="sidebar" th:replace="~{/fragments/sidebar :: sidebar}"></div>
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <div id="content">
+
+                <div id="topbar" th:replace="~{/fragments/topbar :: topbar}"></div>
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">메뉴 관리</h1>
+                    </div>
+
+                    <div class="card shadow mb-4">
+                        <div class="card-header d-flex justify-content-between">
+                            <h4>그룹코드 목록</h4>
+                        </div>
+<!--                        <div class="card-body groupCodeTable">-->
+<!--                            <table class="table">-->
+<!--                                <thead>-->
+<!--                                <tr>-->
+<!--                                    <th><i class="fa fa-check" aria-hidden="true"></i></th>-->
+<!--                                    <th>그룹코드 ID</th>-->
+<!--                                    <th>그룹코드 이름</th>-->
+<!--                                    <th>설명</th>-->
+<!--                                    <th>생성일</th>-->
+<!--                                    <th>수정일</th>-->
+<!--                                </tr>-->
+<!--                                </thead>-->
+<!--                                <tbody id="groupCodeList">-->
+<!--                                &lt;!&ndash; 동적으로 그룹코드 목록 추가 &ndash;&gt;-->
+<!--                                </tbody>-->
+<!--                            </table>-->
+<!--                        </div>-->
+                    </div>
+
+                    <!-- 공통코드 목록과 상세 정보 -->
+<!--                    <div class="row mt-5">-->
+<!--                        &lt;!&ndash; 공통코드 목록 &ndash;&gt;-->
+<!--                        <div class="col-md-6">-->
+<!--                            <div class="card">-->
+<!--                                <div class="card-header">-->
+<!--                                    <h4>공통코드 목록</h4>-->
+<!--                                </div>-->
+<!--                                <div class="card-body">-->
+<!--                                    <table class="table">-->
+<!--                                        <thead>-->
+<!--                                        <tr>-->
+<!--                                            <th><i class="fa fa-check" aria-hidden="true"></i></th>-->
+<!--                                            <th>코드 ID</th>-->
+<!--                                            <th>코드 이름</th>-->
+<!--                                            <th>코드 값</th>-->
+<!--                                            <th>코드 설명</th>-->
+<!--                                        </tr>-->
+<!--                                        </thead>-->
+<!--                                        <tbody id="commonCodeList">-->
+<!--                                        &lt;!&ndash; 동적으로 공통코드 목록 추가 &ndash;&gt;-->
+<!--                                        </tbody>-->
+<!--                                    </table>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                        &lt;!&ndash; 공통코드 상세 정보 &ndash;&gt;-->
+<!--                        <div class="col-md-6">-->
+<!--                            <div class="card">-->
+<!--                                <div class="card-header">-->
+<!--                                    <h4>공통코드 상세 정보</h4>-->
+<!--                                </div>-->
+<!--                                <div class="card-body">-->
+<!--                                    <form id="commonCodeForm">-->
+<!--                                        <div class="form-group">-->
+<!--                                            <label for="code_id">코드 ID</label>-->
+<!--                                            <input type="text" class="form-control" id="code_id" name="code_id" readonly>-->
+<!--                                        </div>-->
+<!--                                        <div class="form-group">-->
+<!--                                            <label for="code_name">코드 이름</label>-->
+<!--                                            <input type="text" class="form-control" id="code_name" name="code_name">-->
+<!--                                        </div>-->
+<!--                                        <div class="form-group">-->
+<!--                                            <label for="code_value">코드 값</label>-->
+<!--                                            <input type="text" class="form-control" id="code_value" name="code_value">-->
+<!--                                        </div>-->
+<!--                                        <div class="form-group">-->
+<!--                                            <label for="code_desc">코드 설명</label>-->
+<!--                                            <textarea class="form-control" id="code_desc" name="code_desc"></textarea>-->
+<!--                                        </div>-->
+<!--                                        <button type="submit" class="btn btn-primary">등록/수정</button>-->
+<!--                                    </form>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                </div>
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer th:replace="~{/fragments/footer :: footer}">
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+</body>
+<!-- Script Fragments -->
+<th:block th:replace="~{fragments/config :: config}" ></th:block>
+
+<script>
+
+</script>
+</html>

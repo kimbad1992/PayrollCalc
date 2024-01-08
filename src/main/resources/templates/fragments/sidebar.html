@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <!-- Sidebar -->
 <ul th:fragment="sidebar" class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
@@ -115,6 +116,7 @@
     <div class="sidebar-card d-none d-lg-flex">
         <p class="text-center mb-2">현재 경로 (servletPath)</p>
         <p class="text-center mb-2"><strong th:text="${servletPath}"></strong></p>
+        <p class="text-center mb-2"><strong sec:authentication="principal.authorities"></strong></p>
     </div>
 
 </ul>

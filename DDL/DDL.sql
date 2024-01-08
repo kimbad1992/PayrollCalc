@@ -103,11 +103,13 @@ INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name
 INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (6, '시스템 설정', '/system', 3, '시스템', 1, null, 1, 'fa fa-cog');
 INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (7, '', '/system/commonCode', 3, '공통코드 관리', 1, 6, 2, null);
 INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (8, '', '/system/administration', 3, '운영자 관리', 1, 6, 2, null);
+INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (9, '', '/system/menu', 3, '메뉴 관리', 1, 6, 2, null);
 INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (10, '놀이터', '/playground', 4, '놀이터', 1, null, 1, 'fa fa-rocket');
 INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (11, ' ', '/playground/map', 4, '카카오맵 API', 1, 10, 2, null);
 INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (12, ' ', '/playground/mail', 4, '메일 발송', 1, 10, 2, null);
 INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (13, ' ', '/playground/chat', 5, '실시간 채팅', 1, 10, 2, null);
 INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (14, ' ', '/playground/lostark', 6, '로스트아크 API', 1, 10, 2, null);
+INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (15, ' ', '/playground/llm', 6, '로컬 AI', 1, 10, 2, null);
 ------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE GROUP_CODE (
                             GROUP_CODE_SEQ SERIAL PRIMARY KEY,

@@ -53,6 +53,11 @@ public class PlaygroundController {
         return "/playground/lostark";
     }
 
+    @RequestMapping("/llm")
+    public String llm(Model model) {
+        return "/playground/llm";
+    }
+
     @PostMapping("/sendMail.do")
     @ResponseBody
     public String doSend(@RequestBody Mail mail) {

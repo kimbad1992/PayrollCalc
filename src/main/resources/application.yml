@@ -61,3 +61,6 @@ system:
   mail:
     mail-address: ENC(hN7afWLqVzP8a75Rg756w7kWVY8x6fGAfIyFSq3T504=)
     mail-password: ENC(a4NqSqBz68g+4g6BLDq+vOVkueLSSHF25D+4qDGU8wQ=)
+  naver-api-key:
+    clientId: ENC(ju7hAF5QSgLSZb3QbdxTDfXrc2ZD/MeB39Pl2yagEf8=)
+    secretKey: ENC(Bses7BlBu9IKBt+TLyOYXDlTktxP49r5)

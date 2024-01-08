@@ -67,6 +67,12 @@ public class SystemController {
         return "/system/register";
     }
 
+    @RequestMapping("/menu")
+    public String menuPage(Model model) {
+        model.addAttribute("menuList", systemService.getAllMenu());
+        return "/system/menu";
+    }
+
     @RequestMapping("/adminUserRegister.do")
     @ResponseBody
     public ResponseEntity<?> adminUserRegister(@Valid @ModelAttribute AdminUser adminUser, BindingResult bindingResult) {
