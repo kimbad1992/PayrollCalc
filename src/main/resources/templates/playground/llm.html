@@ -32,7 +32,8 @@
                 <p class="mb-4">
                     META의 Llama2 <span class="text-danger">무검열 버전</span> 모델을 사용합니다.
                     분당 20회의 프롬프트 생성을 지원하며, 한국어는 지원하지 않습니다.<br>
-                    대화 컨텍스트를 유지하지 못하며, 단발적인 질문/답변만 가능합니다.
+                    대화 컨텍스트를 유지하지 못하며, 단발적인 질문/답변만 가능합니다.<br>
+                    번역 결과는 네이버 Papago API를 사용하여 영어 -> 한국어로 번역합니다.
                 </p>
 
                 <!-- DataTales Example -->
@@ -54,6 +55,11 @@
                                 <span class="text-primary">AI 응답</span>
                                 <div id="aiResponse">
                                     예시 내용
+                                </div>
+                                <br>
+                                <span class="text-primary">번역 결과</span>
+                                <div id="translateResult">
+                                    번역 내용
                                 </div>
                             </div>
                         </div>
@@ -108,11 +114,20 @@
                 if (parts.length > 1) {
                     const desiredText = parts[1].trim(); // 앞뒤 공백 제거
                     $('#aiResponse').text(desiredText);
+                    translateResponse(desiredText);
                 }
             })
             .catch(error => {
                 console.log(error)
             });
+    }
+
+    function translateResponse(message) {
+        ComUtils.callFetch("/playground/translate.do", message)
+            .then(data => {
+                console.log(data)
+                $('#translateResult').text(data.message.result.translatedText);
+            })
     }
 </script>
 </html>
