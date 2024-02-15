@@ -35,42 +35,65 @@ public class SystemController {
     @Autowired
     private MailService mailService;
 
-    @RequestMapping("/commonCode")
-    public String commonCodePage() {
-        return "/system/commonCode";
-    }
+//    @RequestMapping("/commonCode")
+//    public String commonCodePage() {
+//        return "/system/commonCode";
+//    }
+//
+//    @GetMapping("/refreshMenu")
+//    @ResponseBody
+//    public String refreshMenu() {
+//        StaticMenu.menuList = systemService.getAllMenu();
+//        return "good";
+//    }
+//
+//    /* 관리자 조회 페이지 */
+//    @RequestMapping("/administration")
+//    public String administrationPage(Model model, HttpServletRequest request) {
+//        model.addAttribute("adminUserList", systemService.getAdminUserList());
+//        return "/system/administration";
+//    }
+//
+//    /* 관리자 등록 페이지 */
+//
+//    @RequestMapping("/register")
+//    public String adminUserRegisterPage() {
+//        return "/system/register";
+//    }
+//
+//    @RequestMapping("/menu")
+//    public String menuPage(Model model) {
+//        model.addAttribute("menuList", systemService.getAllMenu());
+//        return "/system/menu";
+//    }
+//
+//    /* 관리자 등록 시 임시 비밀번호 생성 */
+//    @RequestMapping("/getRandomString")
+//    @ResponseBody
+//    public Map<String, Object> getRandomString() {
+//        String randomKey = randomUtil.generate(10);
+//        Map<String, Object> map = new HashMap<String, Object>();
+//        map.put("randomKey", randomKey);
+//        return map;
+//    }
+//
+//    @RequestMapping("/edit/{id}")
+//    public String adminEdit(@PathVariable Integer id, Model model) {
+//        model.addAttribute("adminUser", systemService.getAdminUserList());
+//        return null;
+//    }
+//
+//    @RequestMapping("/profile")
+//    public String goProfile(Model model, @AuthenticationPrincipal AdminDetails adminDetails) {
+//        model.addAttribute("adminUser",
+//                systemService.getAdminUserById(adminDetails.getId()));
+//        return "/system/profile";
+//    }
 
     @PostMapping("/insertGroupCode.do")
     public ResponseEntity insertGroupCode(@RequestBody List<GroupCode> groupCodes, Model model) {
         log.debug("groupCodes : {}", groupCodes);
         return null;
-    }
-
-    @GetMapping("/refreshMenu")
-    @ResponseBody
-    public String refreshMenu() {
-        StaticMenu.menuList = systemService.getAllMenu();
-        return "good";
-    }
-
-    /* 관리자 조회 페이지 */
-    @RequestMapping("/administration")
-    public String administrationPage(Model model, HttpServletRequest request) {
-        model.addAttribute("adminUserList", systemService.getAdminUserList());
-        return "/system/administration";
-    }
-
-    /* 관리자 등록 페이지 */
-
-    @RequestMapping("/register")
-    public String adminUserRegisterPage() {
-        return "/system/register";
-    }
-
-    @RequestMapping("/menu")
-    public String menuPage(Model model) {
-        model.addAttribute("menuList", systemService.getAllMenu());
-        return "/system/menu";
     }
 
     @RequestMapping("/adminUserRegister.do")
@@ -85,36 +108,13 @@ public class SystemController {
         systemService.adminUserRegister(adminUser);
 
         Mail mail = Mail.builder()
-                        .to(adminUser.getEmail())
-                        .subject(EmailEnum.ADMIN_REGISTER.getSubject())
-                        .build();
+                .to(adminUser.getEmail())
+                .subject(EmailEnum.ADMIN_REGISTER.getSubject())
+                .build();
 
         mailService.sendMail(mail, EmailEnum.ADMIN_REGISTER.getTemplateLocation()
                 ,CommonUtil.convertDtoToMap(adminUser));
         return new ApiResponse<>().build();
 //        return "/system/register";
-    }
-
-    /* 관리자 등록 시 임시 비밀번호 생성 */
-    @RequestMapping("/getRandomString")
-    @ResponseBody
-    public Map<String, Object> getRandomString() {
-        String randomKey = randomUtil.generate(10);
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("randomKey", randomKey);
-        return map;
-    }
-
-    @RequestMapping("/edit/{id}")
-    public String adminEdit(@PathVariable Integer id, Model model) {
-        model.addAttribute("adminUser", systemService.getAdminUserList());
-        return null;
-    }
-
-    @RequestMapping("/profile")
-    public String goProfile(Model model, @AuthenticationPrincipal AdminDetails adminDetails) {
-        model.addAttribute("adminUser",
-                systemService.getAdminUserById(adminDetails.getId()));
-        return "/system/profile";
     }
 }

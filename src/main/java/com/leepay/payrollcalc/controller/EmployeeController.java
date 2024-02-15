@@ -28,30 +28,30 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     /* 사원 조회 페이지 */
-    @RequestMapping("/list")
-    public String employeeListPage(Model model) {
-        model.addAttribute("employeeList", employeeService.getEmployeeList());
-        return "/employee/list";
-    }
-
-    /* 사원 등록 페이지 */
-    @RequestMapping("/register")
-    public String employeeRegisterPage() {
-        return "/employee/register";
-    }
-
-    /* 엑셀 일괄 등록 페이지 */
-    @RequestMapping("/excel")
-    public String employeeExcelPage() {
-        return "/employee/excel";
-    }
-
-    /* 사원 정보 수정 페이지 */
-    @RequestMapping("/edit/{personId}")
-    public String employeeEdit(@PathVariable Integer personId, Model model) {
-        model.addAttribute("employee", employeeService.getEmployeeDetail(personId));
-        return "/employee/edit";
-    }
+//    @RequestMapping("/list")
+//    public String employeeListPage(Model model) {
+//        model.addAttribute("employeeList", employeeService.getEmployeeList());
+//        return "/employee/list";
+//    }
+//
+//    /* 사원 등록 페이지 */
+//    @RequestMapping("/register")
+//    public String employeeRegisterPage() {
+//        return "/employee/register";
+//    }
+//
+//    /* 엑셀 일괄 등록 페이지 */
+//    @RequestMapping("/excel")
+//    public String employeeExcelPage() {
+//        return "/employee/excel";
+//    }
+//
+//    /* 사원 정보 수정 페이지 */
+//    @RequestMapping("/edit/{personId}")
+//    public String employeeEdit(@PathVariable Integer personId, Model model) {
+//        model.addAttribute("employee", employeeService.getEmployeeDetail(personId));
+//        return "/employee/edit";
+//    }
 
     @PostMapping("/employeeRegister.do")
     @ResponseBody

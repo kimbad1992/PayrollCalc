@@ -52,6 +52,8 @@ dependencies {
     implementation 'org.apache.poi:poi-ooxml:5.0.0'
     implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'
     implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
+    // jwt
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
 }
 
 tasks.named('test') {

@@ -1,0 +1,31 @@
+/*정열이 로그인 이미지*/
+.jy-login-image{
+    background:url(/images/jeongyeol.jpg);
+    background-position:center;
+    background-size:cover
+}
+
+/* 메인 컨텐츠에 Noto Sans 웹폰트 적용 */
+#content-wrapper {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+/* 로딩 레이어 */
+#loadingLayer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 9999;
+}
+
+#loadingText {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 24px;
+}

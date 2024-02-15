@@ -38,32 +38,32 @@ public class PlaygroundController {
     private PlaygroundService playgroundService;
 
 
-    @RequestMapping("/map")
-    public String kakaoMap(Model model) {
-        model.addAttribute("appKey", PropUtil.getProperty("system.kakao-api-key.js"));
-        return "/playground/map";
-    }
-
-    @RequestMapping("/mail")
-    public String mailSend() {
-        return "/playground/mail";
-    }
-
-    @RequestMapping("/chat")
-    public String chatRoom() {
-        return "/playground/chatRoom";
-    }
-
-    @RequestMapping("/lostark")
-    public String lostark(Model model) {
-         model.addAttribute("appKey", "Bearer "+PropUtil.getProperty("system.lostark-api-key"));
-        return "/playground/lostark";
-    }
-
-    @RequestMapping("/llm")
-    public String llm(Model model) {
-        return "/playground/llm";
-    }
+//    @RequestMapping("/map")
+//    public String kakaoMap(Model model) {
+//        model.addAttribute("appKey", PropUtil.getProperty("system.kakao-api-key.js"));
+//        return "/playground/map";
+//    }
+//
+//    @RequestMapping("/mail")
+//    public String mailSend() {
+//        return "/playground/mail";
+//    }
+//
+//    @RequestMapping("/chat")
+//    public String chatRoom() {
+//        return "/playground/chatRoom";
+//    }
+//
+//    @RequestMapping("/lostark")
+//    public String lostark(Model model) {
+//         model.addAttribute("appKey", "Bearer "+PropUtil.getProperty("system.lostark-api-key"));
+//        return "/playground/lostark";
+//    }
+//
+//    @RequestMapping("/llm")
+//    public String llm(Model model) {
+//        return "/playground/llm";
+//    }
 
     @PostMapping("/translate.do")
     @ResponseBody

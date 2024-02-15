@@ -35,3 +35,8 @@ out/
 
 ### VS Code ###
 .vscode/
+
+# React Build
+/payroll_auto/build
+/payroll_auto/public/bootstrap
+/src/main/resources/static

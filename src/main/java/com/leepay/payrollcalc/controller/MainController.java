@@ -21,16 +21,16 @@ public class MainController {
         return authentication.isAuthenticated();
     }
 
-    @RequestMapping("/login")
-    public String login(Authentication auth) {
-        if (auth != null && auth.isAuthenticated()) {
-            return "redirect:/main";
-        }
-        return "/login";
-    }
-
-    @RequestMapping("/main")
-    public String mainPage(Principal principal) {
-        return "/index";
-    }
+//    @RequestMapping("/login")
+//    public String login(Authentication auth) {
+//        if (auth != null && auth.isAuthenticated()) {
+//            return "redirect:/main";
+//        }
+//        return "/login";
+//    }
+//
+//    @RequestMapping("/main")
+//    public String mainPage(Principal principal) {
+//        return "/index";
+//    }
 }

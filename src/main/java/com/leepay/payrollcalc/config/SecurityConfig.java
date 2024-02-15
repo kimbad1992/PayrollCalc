@@ -1,7 +1,9 @@
 package com.leepay.payrollcalc.config;
 
 import com.leepay.payrollcalc.constant.Constant;
+import com.leepay.payrollcalc.filter.JwtTokenFilter;
 import com.leepay.payrollcalc.handler.AuthenticationHandler;
+import com.leepay.payrollcalc.jwt.JwtTokenProvider;
 import com.leepay.payrollcalc.provider.AdminAuthenticatorProvider;
 import com.leepay.payrollcalc.provider.CsrfTokenProvider;
 import com.leepay.payrollcalc.service.AdminLoginDetailService;
@@ -14,9 +16,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
@@ -37,6 +41,13 @@ public class SecurityConfig {
     private AuthenticationHandler authenticationHandler;
     @Autowired
     private CsrfTokenProvider csrfTokenProvider;
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+
+    @Bean
+    public JwtTokenFilter jwtTokenFilter() {
+        return new JwtTokenFilter(jwtTokenProvider);
+    }
 
     @Autowired
     public void configure (AuthenticationManagerBuilder auth) throws Exception {
@@ -49,14 +60,7 @@ public class SecurityConfig {
 
         /* 경로별 권한 설정 */
         http
-            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-            .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
-                    .requestMatchers(new AntPathRequestMatcher("/bootstrap/**/**"), new AntPathRequestMatcher("/favicon/**"))
-                    .permitAll()
-                    .requestMatchers(PathRequest.toStaticResources().atCommonLocations()) // 정적 자원에 대해 허용, (/css/**, /js/**, /images/**, /webjars/**, /**/favicon.ico)
-                    .permitAll()
-                    .anyRequest().authenticated()
-            );
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()));
 
         /* 로그인 모드별 Http 설정 */
         if (loginMode.equals(Constant.LOGIN_MODE_SESSION)) {
@@ -93,6 +97,19 @@ public class SecurityConfig {
                 );
         } else if (loginMode.equals(Constant.LOGIN_MODE_JWT)) {
             // Json Web Token 확인용 Filter
+            http
+                    .csrf().disable() // JWT 인증 사용 시, CSRF 보호 비활성화
+                    .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                    .addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class) // JWT 토큰 필터 추가
+                    .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
+                            .requestMatchers(new AntPathRequestMatcher("/bootstrap/**/**"), new AntPathRequestMatcher("/favicon/**"))
+                            .permitAll()
+                            .requestMatchers(PathRequest.toStaticResources().atCommonLocations()) // 정적 자원에 대해 허용, (/css/**, /js/**, /images/**, /webjars/**, /**/favicon.ico)
+                            .permitAll()
+                            .requestMatchers(new AntPathRequestMatcher("/api/**")).authenticated()
+                            .anyRequest().permitAll()
+                    );
+
         }
         return http.build();
     }
@@ -101,7 +118,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000","*"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000", "*"));
         configuration.setAllowedMethods(Arrays.asList("GET","POST", "PUT", "DELETE"));
         configuration.setAllowedHeaders(Arrays.asList("X-Requested-With", "Content-Type", "Authorization", "X-CSRF-TOKEN"));
         configuration.setAllowCredentials(false);
