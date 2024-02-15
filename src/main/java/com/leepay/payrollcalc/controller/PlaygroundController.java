@@ -56,8 +56,7 @@ public class PlaygroundController {
 
     @RequestMapping("/lostark")
     public String lostark(Model model) {
-        String appKey = "Bearer "+PropUtil.getProperty("system.lostark-api-key");
-        model.addAttribute("appKey", appKey);
+         model.addAttribute("appKey", "Bearer "+PropUtil.getProperty("system.lostark-api-key"));
         return "/playground/lostark";
     }
 

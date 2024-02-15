@@ -125,8 +125,11 @@
     function translateResponse(message) {
         ComUtils.callFetch("/playground/translate.do", message)
             .then(data => {
-                console.log(data)
-                $('#translateResult').text(data.message.result.translatedText);
+                if (!data.message) {
+                    $('#translateResult').text('번역 요청 한도를 초과했습니다.');
+                } else {
+                    $('#translateResult').text(data.message.result.translatedText);
+                }
             })
     }
 </script>
