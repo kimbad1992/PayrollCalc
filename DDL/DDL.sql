@@ -9,6 +9,7 @@ DROP TABLE IF EXISTS WORK_INFO CASCADE;
 DROP TABLE IF EXISTS PERSON_INFO CASCADE;
 DROP TABLE IF EXISTS COMMON_CODE CASCADE;
 DROP TABLE IF EXISTS GROUP_CODE CASCADE;
+DROP TABLE IF EXISTS PLAYGROUND_DATA CASCADE;
 ------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE PERSON_INFO (
                              PERSON_ID SERIAL PRIMARY KEY,
@@ -93,23 +94,24 @@ CREATE TABLE ADMIN_MENU (
                             role_id INT REFERENCES ADMIN_ROLES(id),
                             parent_page_seq INT REFERENCES ADMIN_MENU(page_seq),
                             level INT NOT NULL,
-                            icon_class VARCHAR(100)
+                            icon_class VARCHAR(100),
+                            component_name VARCHAR(50)
 );
-INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (2, '', '/employee/list', 1, '사원 조회', 1, 1, 2, null);
-INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (3, '', '/employee/register', 1, '사원 등록', 1, 1, 2, null);
-INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (4, '', '/employee/excel', 1, '사원 엑셀 일괄등록', 1, 1, 2, null);
-INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (1, '사원 관리', '/employee', 1, '사원', 1, null, 1, 'fa fa-address-book');
-INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (5, '급여 관리', '/payroll', 2, '급여', 1, null, 1, 'fa fa-credit-card');
-INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (6, '시스템 설정', '/system', 3, '시스템', 1, null, 1, 'fa fa-cog');
-INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (7, '', '/system/commonCode', 3, '공통코드 관리', 1, 6, 2, null);
-INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (8, '', '/system/administration', 3, '운영자 관리', 1, 6, 2, null);
-INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (9, '', '/system/menu', 3, '메뉴 관리', 1, 6, 2, null);
-INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (10, '놀이터', '/playground', 4, '놀이터', 1, null, 1, 'fa fa-rocket');
-INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (11, ' ', '/playground/map', 4, '카카오맵 API', 1, 10, 2, null);
-INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (12, ' ', '/playground/mail', 4, '메일 발송', 1, 10, 2, null);
-INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (13, ' ', '/playground/chat', 5, '실시간 채팅', 1, 10, 2, null);
-INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (14, ' ', '/playground/lostark', 6, '로스트아크 API', 1, 10, 2, null);
-INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class) VALUES (15, ' ', '/playground/llm', 6, '로컬 AI', 1, 10, 2, null);
+INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class, component_name) VALUES (1, '사원 관리', '/employee', 1, '사원', 1, null, 1, 'fa fa-address-book', null);
+INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class, component_name) VALUES (2, '', '/employee/list', 1, '사원 조회', 1, 1, 2, null, 'EmployeeList');
+INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class, component_name) VALUES (3, '', '/employee/register', 1, '사원 등록', 1, 1, 2, null, 'EmployeeRegister');
+INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class, component_name) VALUES (4, '', '/employee/excel', 1, '사원 엑셀 일괄등록', 1, 1, 2, null, 'EmployeeExcel');
+INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class, component_name) VALUES (5, '급여 관리', '/payroll', 2, '급여', 1, null, 1, 'fa fa-credit-card', null);
+INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class, component_name) VALUES (6, '시스템 설정', '/system', 3, '시스템', 1, null, 1, 'fa fa-cog', null);
+INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class, component_name) VALUES (7, '', '/system/commonCode', 3, '공통코드 관리', 1, 6, 2, null, 'CommonCode');
+INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class, component_name) VALUES (8, '', '/system/administration', 3, '운영자 관리', 1, 6, 2, null, 'Administrator');
+INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class, component_name) VALUES (9, '', '/system/menu', 3, '메뉴 관리', 1, 6, 2, null, 'MenuConfig');
+INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class, component_name) VALUES (10, '놀이터', '/playground', 4, '놀이터', 1, null, 1, 'fa fa-rocket', null);
+INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class, component_name) VALUES (11, ' ', '/playground/map', 4, '카카오맵 API', 1, 10, 2, null, 'KakaoMap');
+INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class, component_name) VALUES (12, ' ', '/playground/mail', 4, '메일 발송', 1, 10, 2, null, 'Email');
+INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class, component_name) VALUES (13, ' ', '/playground/chat', 5, '실시간 채팅', 1, 10, 2, null, 'RealtimeChat');
+INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class, component_name) VALUES (14, ' ', '/playground/lostark', 6, '로스트아크 API', 1, 10, 2, null, 'LostArk');
+INSERT INTO public.admin_menu (page_seq, page_name, page_url, gnb_sort, gnb_name, role_id, parent_page_seq, level, icon_class, component_name) VALUES (15, ' ', '/playground/llm', 6, '로컬 AI', 1, 10, 2, null, 'LLM');
 ------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE GROUP_CODE (
                             GROUP_CODE_SEQ SERIAL PRIMARY KEY,
@@ -138,5 +140,3 @@ CREATE TABLE PLAYGROUND_DATA (
                                  data JSONB
 );
 INSERT INTO public.playground_data (key, data) VALUES ('raidData', '[{"difficulty": {"노말": {"gate": {"1": {"gold": 500, "minLevel": 1415}, "2": {"gold": 700, "minLevel": 1415}}}, "하드": {"gate": {"1": {"gold": 700, "minLevel": 1445}, "2": {"gold": 1100, "minLevel": 1445}}}}, "dungeonName": "발탄"}, {"difficulty": {"노말": {"gate": {"1": {"gold": 600, "minLevel": 1430}, "2": {"gold": 1000, "minLevel": 1430}}}, "하드": {"gate": {"1": {"gold": 900, "minLevel": 1460}, "2": {"gold": 1500, "minLevel": 1460}}}}, "dungeonName": "비아키스"}, {"difficulty": {"노말": {"gate": {"1": {"gold": 600, "minLevel": 1475}, "2": {"gold": 900, "minLevel": 1475}, "3": {"gold": 1500, "minLevel": 1475}}}, "하드": {}}, "dungeonName": "쿠크세이튼"}, {"difficulty": {"노말": {"gate": {"1": {"gold": 1500, "minLevel": 1490}, "2": {"gold": 1500, "minLevel": 1490}, "3": {"gold": 1500, "minLevel": 1500}, "4": {"gold": 2500, "minLevel": 1520}}}, "하드": {"gate": {"1": {"gold": 2000, "minLevel": 1540}, "2": {"gold": 2000, "minLevel": 1540}, "3": {"gold": 2000, "minLevel": 1550}, "4": {"gold": 3000, "minLevel": 1560}}}}, "dungeonName": "아브렐슈드"}, {"difficulty": {"노말": {"gate": {"1": {"gold": 1500, "minLevel": 1580}, "2": {"gold": 2000, "minLevel": 1580}, "3": {"gold": 4000, "minLevel": 1580}}}, "하드": {"gate": {"1": {"gold": 1750, "minLevel": 1600}, "2": {"gold": 2500, "minLevel": 1600}, "3": {"gold": 5750, "minLevel": 1600}}}}, "dungeonName": "일리아칸"}, {"difficulty": {"노말": {"gate": {"1": {"gold": 3500, "minLevel": 1610}, "2": {"gold": 4000, "minLevel": 1610}, "3": {"gold": 5500, "minLevel": 1610}}}, "하드": {"gate": {"1": {"gold": 5000, "minLevel": 1630}, "2": {"gold": 6000, "minLevel": 1630}, "3": {"gold": 9000, "minLevel": 1630}, "4": {"gold": 21000, "minLevel": 1630}}}}, "dungeonName": "카멘"}, {"difficulty": {"노말": {"gate": {"1": {"gold": 1000, "minLevel": 1540}, "2": {"gold": 1500, "minLevel": 1540}, "3": {"gold": 2000, "minLevel": 1540}}}, "하드": {"gate": {"1": {"gold": 1500, "minLevel": 1580}, "2": {"gold": 2000, "minLevel": 1580}, "3": {"gold": 3000, "minLevel": 1580}}}}, "dungeonName": "카양겔"}, {"difficulty": {"노말": {"gate": {"1": {"gold": 1500, "minLevel": 1600}, "2": {"gold": 1750, "minLevel": 1600}, "3": {"gold": 2500, "minLevel": 1600}, "4": {"gold": 3250, "minLevel": 1600}}}, "하드": {"gate": {"1": {"gold": 2000, "minLevel": 1620}, "2": {"gold": 2500, "minLevel": 1620}, "3": {"gold": 4000, "minLevel": 1620}, "4": {"gold": 6000, "minLevel": 1620}}}}, "dungeonName": "상아탑"}]');
-
-

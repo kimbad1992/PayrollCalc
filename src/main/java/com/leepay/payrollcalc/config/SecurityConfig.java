@@ -103,7 +103,7 @@ public class SecurityConfig {
                     .addFilterBefore(jwtTokenFilter(), UsernamePasswordAuthenticationFilter.class) // JWT 토큰 필터 추가
                     .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
                             .requestMatchers(new AntPathRequestMatcher("/bootstrap/**/**"), new AntPathRequestMatcher("/favicon/**")
-                            ,new AntPathRequestMatcher("/login"), new AntPathRequestMatcher("/api/userLogin"))
+                            ,new AntPathRequestMatcher("/api/login/sign"), new AntPathRequestMatcher("/api/system/menuList"))
                             .permitAll()
                             .requestMatchers(PathRequest.toStaticResources().atCommonLocations()) // 정적 자원에 대해 허용, (/css/**, /js/**, /images/**, /webjars/**, /**/favicon.ico)
                             .permitAll()

@@ -11,16 +11,17 @@
         const navigate = useNavigate();
         const dispatch = useDispatch();
 
+        console.log("로그인 페이지 호출.")
+
         const handleSubmit = async (e) => {
             e.preventDefault();
             try {
-                const response = await axios.post('/api/userLogin', {
+                const response = await axios.post('/api/login/sign', {
                     username,
                     password,
                 });
-                // JWT 저장
-                const token = response.data;
-                localStorage.setItem('jwtToken', token); // 로컬 스토리지에 저장
+                const token = response.data.data;
+                localStorage.setItem('jwtToken', JSON.stringify(token)); // 로컬 스토리지에 저장
 
                 // 상태 관리 라이브러리에 사용자 정보 저장 (옵션)
                 dispatch(setUser(token)); // 수정된 부분

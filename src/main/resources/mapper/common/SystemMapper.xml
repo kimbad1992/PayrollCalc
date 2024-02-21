@@ -24,6 +24,7 @@
               ,A.LEVEL
               ,B.NAME AS ROLE_NAME
               ,A.ICON_CLASS
+              ,A.COMPONENT_NAME
          FROM ADMIN_MENU A
          JOIN ADMIN_ROLES B
            ON B.ID = A.ROLE_ID

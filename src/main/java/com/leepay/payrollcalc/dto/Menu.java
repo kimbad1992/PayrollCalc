@@ -19,4 +19,5 @@ public class Menu {
     String role_name;
     List<Menu> sub_menus = new ArrayList<Menu>();
     String icon_class; // Font Awesome 4 아이콘 사용을 위한 클래스명 지정
+    String component_name; // React Router 컴포넌트 지정
 }
