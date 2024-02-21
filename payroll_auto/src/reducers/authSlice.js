@@ -9,6 +9,7 @@ const authSlice = createSlice({
     reducers: {
         // 리듀서와 액션을 한 번에 정의
         setUser: (state, action) => {
+            console.log(state, action)
             state.currentUser = action.payload; // 직접 상태를 수정할 수 있음
         },
     },

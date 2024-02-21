@@ -64,3 +64,5 @@ system:
   naver-api-key:
     clientId: ENC(ju7hAF5QSgLSZb3QbdxTDfXrc2ZD/MeB39Pl2yagEf8=)
     secretKey: ENC(Bses7BlBu9IKBt+TLyOYXDlTktxP49r5)
+  jwt:
+    secret: 4pX5K/OQxZgQKLxnk09tkZqZ/q3KQ0MUnoNNhoR4Ltg=

@@ -16,6 +16,11 @@ public class AdminDetails implements UserDetails {
     public AdminDetails(AdminUser adminUser) {
         this.adminUser = adminUser;
     }
+    public AdminDetails(String subject, Collection<? extends GrantedAuthority> authorities) {
+        AdminUser target = new AdminUser();
+        target.setUsername(subject);
+        this.adminUser = target;
+    }
 
     public AdminUser getAdminUser() {
         return adminUser;

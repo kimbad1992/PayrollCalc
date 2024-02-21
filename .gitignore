@@ -40,3 +40,4 @@ out/
 /payroll_auto/build
 /payroll_auto/public/bootstrap
 /src/main/resources/static
+/node_modules/**
