@@ -2,6 +2,9 @@ import React, {useEffect, useState} from 'react';
 import Sidebar from "./Sidebar";
 import {Navigate, Route, Routes} from "react-router-dom";
 import {useSelector} from "react-redux";
+import routeMappings from '../setting/routeMapping';
+import ErrorPage from "./ErrorPage";
+import TopBar from "./TopBar";
 
 function MainPage() {
     const menuList = useSelector((state) => state.menu.menuList);
@@ -9,15 +12,27 @@ function MainPage() {
     const routesList = useSelector((state) => state.menu.flattenedMenuList);
 
     return (
-        <div>
+        <div id="wrapper">
             <Sidebar/>
-            <div id="contents">
-                {/* MainPage 내부의 Routes 정의를 상대 경로로 변경 */}
-                <Routes>
-                    {routesList.map((route, index) => (
-                        <Route key={index} path={route.page_url} element={<div><h1 style={{color:'red'}}>{route.gnb_name}</h1></div>} />
-                    ))}
-                </Routes>
+            <div id="content-wrapper" className="d-flex flex-column">
+                <div id="content">
+                    <TopBar/>
+                    {/* MainPage 내부의 Routes 정의를 상대 경로로 변경 */}
+                    <Routes>
+                        {/*{routesList.map((route, index) => (*/}
+                        {/*    <Route key={index} path={route.page_url} element={route.component_name} />*/}
+                        {/*))}*/}
+                        {routesList.map((route, index) => {
+                            // routesList의 각 route.page_url에 해당하는 컴포넌트를 routeMappings에서 찾습니다.
+                            const Component = routeMappings.find((mapping) => mapping.path === route.page_url)?.component;
+                            // 찾은 컴포넌트가 있으면 Route를 생성합니다. 없으면 null을 반환합니다.
+                            return Component ? (
+                                <Route key={index} path={route.page_url} element={<Component />} />
+                            ) : null;
+                        })}
+                        <Route path="*" element={<ErrorPage />} /> {/* 존재하지 않는 경로 처리 */}
+                    </Routes>
+                </div>
             </div>
         </div>
     );

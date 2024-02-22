@@ -1,4 +1,4 @@
-    import React, {useState} from 'react';
+    import React, {useEffect, useState} from 'react';
     import { Link } from 'react-router-dom';
     import axios from "axios";
     import { useNavigate } from 'react-router-dom';
@@ -31,6 +31,16 @@
                 // 에러 처리, 예를 들어 사용자에게 에러 메시지 표시
             }
         };
+
+        useEffect(() => {
+            // 컴포넌트가 마운트될 때 <body>에 클래스 추가
+            document.body.classList.add("bg-gradient-primary");
+
+            // 컴포넌트가 언마운트될 때 <body>에서 해당 클래스 제거
+            return () => {
+                document.body.classList.remove("bg-gradient-primary");
+            };
+        }, []); // 빈 배열을 의존성 배열로 제공하여 컴포넌트 마운트 시에만 실행되도록 함
 
 
         return (
