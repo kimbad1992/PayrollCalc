@@ -1,35 +1,25 @@
     import React, {useEffect, useState} from 'react';
-    import { Link } from 'react-router-dom';
-    import axios from "axios";
-    import { useNavigate } from 'react-router-dom';
-    import { useDispatch } from "react-redux";
-    import { setUser } from "../reducers/authSlice";
+    import {Link, useNavigate} from 'react-router-dom';
+    import {useDispatch, useSelector} from "react-redux";
+    import { requestLogin } from "../reducers/authSlice";
 
     function LoginPage() {
         const [username, setUsername] = useState('');
         const [password, setPassword] = useState('');
-        const navigate = useNavigate();
         const dispatch = useDispatch();
-
-        console.log("로그인 페이지 호출.")
+        const navigate = useNavigate();
+        const errMsg = useSelector(state => state.auth.errorMsg);
 
         const handleSubmit = async (e) => {
             e.preventDefault();
-            try {
-                const response = await axios.post('/api/login/sign', {
-                    username,
-                    password,
-                });
-                const token = response.data.data;
-                localStorage.setItem('jwtToken', JSON.stringify(token)); // 로컬 스토리지에 저장
-
-                // 상태 관리 라이브러리에 사용자 정보 저장 (옵션)
-                dispatch(setUser(token)); // 수정된 부분
-                navigate('/');
-            } catch (error) {
-                console.error('로그인 요청 실패:', error);
-                // 에러 처리, 예를 들어 사용자에게 에러 메시지 표시
-            }
+            dispatch(requestLogin({ username, password }))
+                .unwrap()
+                .then(()=> {
+                    navigate('/dashboard')
+                })
+                .catch((error) => {
+                    console.log("로그인 에러", error);
+                })
         };
 
         useEffect(() => {
@@ -41,7 +31,6 @@
                 document.body.classList.remove("bg-gradient-primary");
             };
         }, []); // 빈 배열을 의존성 배열로 제공하여 컴포넌트 마운트 시에만 실행되도록 함
-
 
         return (
             <div className="container">
@@ -67,7 +56,7 @@
                                                            className="form-control form-control-user"
                                                            onChange={e => setPassword(e.target.value)}
                                                            placeholder="비밀번호"/>
-                                                    <span className="text-danger"></span> {/* 에러 메시지 출력 위치 */}
+                                                    <span className="text-danger error-message">{errMsg}</span>
                                                 </div>
                                                 <input type="submit" className="btn btn-primary btn-user btn-block"
                                                        value="Login"/>

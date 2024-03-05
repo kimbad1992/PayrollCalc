@@ -11,7 +11,7 @@ function App() {
     const currentUser = useSelector((state) => state.auth.currentUser);
     useEffect(() => {
         // 로컬 스토리지에서 토큰(또는 사용자 정보) 검사
-        const storedUser = localStorage.getItem('jwtToken'); // 예시로 jwtToken 사용
+        const storedUser = sessionStorage.getItem('jwtToken'); // 예시로 jwtToken 사용
         if (storedUser) {
             dispatch(setUser(storedUser)); // 저장된 사용자 정보로 상태 업데이트
         }

@@ -1,24 +1,32 @@
 import React, {useEffect, useState} from 'react';
-import { Link } from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 import {useSelector} from "react-redux";
 import {Collapse} from "react-bootstrap";
 
-// 가정: 메뉴 데이터와 현재 경로 정보는 상위 컴포넌트 또는 컨텍스트에서 받아옴
 function Sidebar({ servletPath }) {
+    const location = useLocation(); // 현재 경로를 가져옵니다.
     const menuList = useSelector((state) => state.menu.menuList);
-    const [open, setOpen] = useState(false);
     const [openMenuId, setOpenMenuId] = useState(null);
 
-    // 메뉴 아이템 클릭 핸들러
     const handleMenuClick = (menuId) => {
-        // 이미 열려 있는 메뉴를 클릭한 경우 메뉴를 닫고, 그렇지 않은 경우 메뉴를 엽니다.
         setOpenMenuId(openMenuId === menuId ? null : menuId);
     };
 
+    useEffect(() => {
+        const handleOutsideClick = (event) => {
+            if (!event.target.closest("#accordionSidebar")) {
+                setOpenMenuId(null); // 사이드바 외부 클릭 시 메뉴 닫기
+            }
+        };
+        document.addEventListener("mousedown", handleOutsideClick);
+        return () => document.removeEventListener("mousedown", handleOutsideClick);
+    }, []);
+
+    const isActive = (path) => location.pathname === path || location.pathname.includes(path);
 
     return (
         <ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-            <a className="sidebar-brand d-flex align-items-center justify-content-center" href="/main">
+            <a className="sidebar-brand d-flex align-items-center justify-content-center" href="#">
                 <div className="sidebar-brand-icon rotate-n-15">
                     <i className="fas fa-laugh-wink"></i>
                 </div>
@@ -27,8 +35,8 @@ function Sidebar({ servletPath }) {
 
             <hr className="sidebar-divider my-0"/>
 
-            <li className="nav-item active">
-                <Link className="nav-link" to="/">
+            <li className={`nav-item ${isActive('/dashboard') ? 'active' : ''}`}>
+                <Link className="nav-link" to="/dashboard">
                     <i className="fas fa-fw fa-tachometer-alt"></i>
                     <span>Main</span>
                 </Link>
@@ -40,8 +48,9 @@ function Sidebar({ servletPath }) {
                 메뉴
             </div>
             {menuList.map((menu, index) => (
-                <li key={index} className={`nav-item ${menu.sub_menus ? 'has-sub-menu' : ''}`}>
-                    <Link className="nav-link" onClick={() => handleMenuClick(menu.page_seq)}>
+                <li key={index}
+                    className={`nav-item ${menu.sub_menus && openMenuId === menu.page_seq ? 'active' : ''}`}>
+                    <Link className="nav-link" to='#' onClick={() => handleMenuClick(menu.page_seq)}>
                         <i className={menu.icon_class || ''}></i>
                         <span>{menu.gnb_name}</span>
                     </Link>
@@ -52,14 +61,14 @@ function Sidebar({ servletPath }) {
                                 <div className="bg-white py-2 collapse-inner rounded">
                                     <h6 className="collapse-header">{menu.page_name}: </h6>
                                     {menu.sub_menus.map((subMenu, subIndex) => (
-                                        <Link key={subIndex} className="collapse-item" to={subMenu.page_url}>
+                                        <Link key={subIndex} className={`collapse-item ${isActive(subMenu.page_url) ? 'active' : ''}`} to={subMenu.page_url}>
                                             {subMenu.gnb_name}
                                         </Link>
                                     ))}
                                 </div>
                             </div>
                         </Collapse>
-                        )}
+                    )}
                 </li>
             ))}
 

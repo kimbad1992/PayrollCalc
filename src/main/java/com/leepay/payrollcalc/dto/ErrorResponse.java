@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
@@ -43,6 +44,11 @@ public class ErrorResponse {
             this.code = ErrorCode.valueOf(value).getCode();
             this.message = ErrorCode.valueOf(value).getErrMsg();
             this.status = ErrorCode.valueOf(value).getStatus();
+        } else if (e instanceof AuthenticationException) {
+            // 사용자 인증 중 에러 발생 시
+            this.code = "9999";
+            this.message = e.getMessage();
+            this.status = HttpStatus.INTERNAL_SERVER_ERROR;
         } else {
             CommonException ex = new CommonException(ErrorCode.INTERNAL_SERVER_ERROR);
             this.code = ex.getErrCode();

@@ -6,6 +6,7 @@ import store from './store'; // 스토어를 정의한 파일의 경로에 맞�
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
+import './axiosConfig';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
