@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Navbar, Nav, NavDropdown, Modal, Button } from 'react-bootstrap';
 import { useSelector } from "react-redux";
+import {Link} from "react-router-dom";
 
 function TopBar() {
     const currentUser = useSelector((state) => state.auth.currentUser);
@@ -12,7 +13,9 @@ function TopBar() {
     return (
         <>
             <Navbar bg="light" expand="lg" className="mb-4 shadow">
-                <Navbar.Brand href="/">브랜드 이름</Navbar.Brand>
+                <Link to="/dashboard">
+                    <Navbar.Brand>App Name</Navbar.Brand>
+                </Link>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ml-auto">
