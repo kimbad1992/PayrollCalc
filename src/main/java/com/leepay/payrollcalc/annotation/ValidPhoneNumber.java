@@ -1,5 +1,6 @@
-package com.leepay.payrollcalc.validation;
+package com.leepay.payrollcalc.annotation;
 
+import com.leepay.payrollcalc.validation.PhoneValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 

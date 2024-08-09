@@ -47,7 +47,23 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
     testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.2'
+    // JUnit
     testImplementation 'org.springframework.security:spring-security-test'
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.7.0")
+    testImplementation('org.junit.jupiter:junit-jupiter:5.7.0')
+    testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.7.0")
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group : 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+    // Swagger 3.0
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+    // Test Class에서 Annotation Processor가 동작하도록 설정
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+    // Mockito
+    testImplementation 'org.mockito:mockito-core'
+    testImplementation 'org.mockito:mockito-junit-jupiter'
+
     implementation 'org.apache.poi:poi:5.0.0'
     implementation 'org.apache.poi:poi-ooxml:5.0.0'
     implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'

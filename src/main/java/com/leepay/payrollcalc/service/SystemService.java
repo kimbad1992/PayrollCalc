@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -24,23 +25,21 @@ public class SystemService {
     public List<Menu> getAllMenu() {
         List<Menu> menus = systemMapper.getAllMenu();
         Map<String, Menu> menuMap = new HashMap<>();
-        List<Menu> topLevelMenus = new ArrayList<>();
 
-        for (Menu menu : menus) {
-            menuMap.put(menu.getPage_seq(), menu);
-        }
-
-        for (Menu menu : menus) {
-            if (menu.getParent_page_seq() == null || menu.getParent_page_seq().equals("0")) { // 루트 메뉴
-                topLevelMenus.add(menu);
-            } else { // 서브 메뉴
-                Menu parent = menuMap.get(menu.getParent_page_seq());
-                if (parent != null) {
-                    parent.getSub_menus().add(menu);
-                }
-            }
-        }
-        return topLevelMenus;
+        return menus.stream()
+                .peek(menu -> menuMap.put(menu.getPage_seq(), menu)) // 메뉴들을 Map에 저장
+                .filter(menu -> {
+                    if (menu.getParent_page_seq() == null || menu.getParent_page_seq().equals("0")) {
+                        return true; // 최상위 메뉴로 유지
+                    } else {
+                        Menu parent = menuMap.get(menu.getParent_page_seq());
+                        if (parent != null) {
+                            parent.getSub_menus().add(menu); // 서브 메뉴로 추가
+                        }
+                        return false; // 최상위 메뉴에서 제외
+                    }
+                })
+                .collect(Collectors.toList()); // 최상위 메뉴만 리스트로 반환
     }
 
     public List<AdminUser> getAdminUserList() {

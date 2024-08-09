@@ -1,13 +1,12 @@
 package com.leepay.payrollcalc.dto;
 
-import com.leepay.payrollcalc.validation.ValidPhoneNumber;
-import com.leepay.payrollcalc.validation.ValidResidentNo;
+import com.leepay.payrollcalc.annotation.ValidPhoneNumber;
+import com.leepay.payrollcalc.annotation.ValidResidentNo;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-import lombok.Data;
 import java.util.Date;
 
 @Data
